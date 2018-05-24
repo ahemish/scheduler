@@ -11,13 +11,26 @@ import datetime
 import sqlite3
 import pandas as pd
 import random
+from flask.ext.sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 
 
 db = sqlite3.connect('/Volumes/Disk 2/Users/arranhemish/sqlite/schedule.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Volumes/Disk 2/Users/arranhemish/sqlite/schedule.db'
+db_session = SQLAlchemy(app)
 
+
+class Event(db_session.Model):
+    
+    __tablename__ = 'appointments'
+    id = db_session.Column(db_session.String(100), primary_key=True)
+    title = db_session.Column(db_session.String(80), unique=True, nullable=False)
+    email = db_session.Column(db_session.String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return '{} | {}  | {}'.format(self.id , self.title , self.email)
 
 cursor = db.cursor()
 
@@ -52,6 +65,27 @@ def addPatient(aAppointment):
     
     patientDetails.to_sql('patients', con=db, if_exists='append',index=False)
     print(patientDetails)
+
+
+
+@app.route('/autocomplete', methods=['GET'])
+def autocomplete():
+    search = request.args.get('q')
+    query = db_session.session.query(Event.title).filter(Event.title.like('%' + str(search) + '%'))
+    results = [mv[0] for mv in query.all()]
+    return jsonify(matching_results=results)
+
+
+
+@app.route('/getPatient', methods=['POST'])
+def getPatient():
+    
+    patientDf = pd.read_sql('SELECT * FROM appointments where title = (?) ', db , params=(request.form["data"],))
+    
+    patientAppointmentJson = patientDf.to_json(orient='records')
+    patientAppointment = json.loads(patientAppointmentJson)
+    
+    return jsonify(patientAppointment)
 
 
 @app.route('/addAppointment', methods=['POST'])
