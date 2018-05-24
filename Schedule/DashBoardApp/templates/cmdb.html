@@ -1,0 +1,69 @@
+<html>
+<title>
+Load Tables
+</title>
+<head>
+<meta charset="utf-8">
+ 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type='text/javascript'>
+var counter = 1;
+var limit = null;
+function addInput(divName){
+     if (counter == limit)  {
+          alert("You have reached the limit of adding " + counter + " inputs");
+     }
+     else {
+          var newdiv = document.createElement('div');
+          newdiv.innerHTML = "<div class='form-group col-xs-1 col-md-1'>                 <input type='text' value='' class='form-control' id='name' placeholder=''>     </div>     <div class='form-group col-xs-1 col-md-1'>                 <input type='text' value='' class='form-control' id='name' placeholder=''>     </div>     <div class='form-group col-xs-2 col-md-2'>                <input type='text' value='' class='form-control' id='name' placeholder=''>     </div> 	<div class='form-group col-xs-2 col-md-2'>                <input type='text' value='' class='form-control' id='name' placeholder=''>     </div>     <div class='form-group col-xs-2 col-md-2'>                 <input type='text' value='' class='form-control' id='name' placeholder=''>     </div>     <div class='form-group col-xs-2 col-md-2'>                 <input type='text' value='' class='form-control' id='name' placeholder=''>     </div> 	 	<div class='form-group col-lg-2'>                 <input type='text' value='' class='form-control' id='name' placeholder=''>     </div>";
+          document.getElementById(divName).appendChild(newdiv);
+          counter++;
+     }
+}
+</script>
+</head>
+
+<body>
+ <script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
+<input type="button" value="Add another text input" onClick="addInput('dynamicInput');">
+
+<form action = "{{ url_for('done') }}" method="post">
+	<button type="submit" class="btn btn-default">Submit</button>
+	<div id="dynamicInput">
+    <div class="form-group col-xs-1 col-md-1">
+        <label for="name" class="control-label">set_name</label>
+        <input type="text" value='' class="form-control" id="name" placeholder=''>
+    </div>
+    <div class="form-group col-xs-1 col-md-1">
+        <label for="name" class="control-label">set_type</label>
+        <input type="text" value='' class="form-control" id="name" placeholder=''>
+    </div>
+    <div class="form-group col-xs-2 col-md-2">
+        <label for="name" class="control-label">set_value</label>
+        <input type="text" value='' class="form-control" id="name" placeholder=''>
+    </div>
+	<div class="form-group col-xs-2 col-md-2">
+        <label for="name" class="control-label">set_ts</label>
+        <input type="text" value='' class="form-control" id="name" placeholder=''>
+    </div>
+    <div class="form-group col-xs-2 col-md-2">
+        <label for="name" class="control-label">set_enabled</label>
+        <input type="text" value='' class="form-control" id="name" placeholder=''>
+    </div>
+    <div class="form-group col-xs-2 col-md-2">
+        <label for="name" class="control-label">set_property_type</label>
+        <input type="text" value='' class="form-control" id="name" placeholder=''>
+    </div>
+	
+	<div class="form-group col-lg-2">
+        <label for="name" class="control-label">set_environment</label>
+        <input type="text" value='' class="form-control" id="name" placeholder=''>
+    </div>
+	
+	
+	</div>
+</form>
+</body>
+</html>
