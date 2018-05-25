@@ -4,6 +4,21 @@
   background-image: none;
   color: #000;
 }
+
+ul.ui-autocomplete.ui-menu {
+  z-index: 1000;
+}
+
+
+input[autocomplete="off"]::-webkit-contacts-auto-fill-button,
+input[autocomplete="off"]::-webkit-credentials-auto-fill-button {
+visibility: hidden;
+display: none !important;
+pointer-events: none;
+height: 0;
+width: 0;
+margin: 0;
+}
 </style>
 
 <div class="row">
@@ -53,7 +68,7 @@
 						<fieldset>
 							<div class="form-group">
 								<label>Appointment Name</label>
-								<input class="form-control"  id="title" name="title" maxlength="40" type="text" placeholder="Appointment Name">
+								<input class="form-control"  id="title" name="title" maxlength="40" type="text" placeholder="Appointment Name" autocomplete="nope">
 							</div>
 							<div class="form-group">
 								<label>Appointment Type</label>
@@ -378,6 +393,9 @@
  				$( '.fc-title' ).toggle();
 			
     		}
+    		
+       
+	  
  	
 	var fullviewcalendar;
 	$('#newEvent').hide();		
@@ -443,6 +461,8 @@
 	    
 	    /* added functions 
 	    ----------------------------------------------------------------*/
+	  
+	    
 	    var aEvent;
 	     function deleteEvent () {
 	     	$('#calendar').fullCalendar( 'removeEvents' , aEvent._id);
@@ -487,7 +507,9 @@
 			                        "phoneNumber" : phoneNumber,
     								"email" : email,
     								"notes" : notes,
-			                        "oldTitle" : aEvent.title
+			                        "oldTitle" : aEvent.title,
+			                        "patientId" : patientId,
+			                        "canceled" : false,
 			                    };
 			
 				$.ajax({
@@ -519,7 +541,9 @@
 	            phoneNumber = $("#phoneNumber").val(),
 	            email = $("#email").val(),
 	            notes = $("#notes").val();
-	            var id = date.getDate() + date.getMonth() + Math.floor((Math.random() * 1000) + 1);	
+	            var id = String(date.getDate()) + date.getMonth() + (date.getHours() + Math.floor((Math.random() * 1000) + 1));	
+	            var patientId = date.getDate() + date.getMonth() + Math.floor((Math.random() * 1000) + 1);	
+
 			var event;
 	        addEvent(title, priority, description, icon , start , end);
 	        
@@ -534,7 +558,10 @@
 			                        className: priority,
 			                        "phoneNumber" : phoneNumber,
 			                        "email" : email,
-			                        "notes" : notes
+			                        "notes" : notes,
+			                        "patientId" : patientId,
+			                        "canceled" : false,
+			                        
 			                    };
 			                    
 			                    $('#calendar').fullCalendar('renderEvent', event, true // make the event "stick"
@@ -601,7 +628,29 @@
     		});
     		
     		
- 	
+ 	 $(function() {
+    $("#title").autocomplete({
+        source:function(request, response) {
+            $.getJSON("{{url_for('autocomplete')}}",{
+                q: request.term, // in flask, "q" will be the argument to look for using request.args
+            }, function(data) {
+                response(data.matching_results);
+               // matching_results from jsonify
+            });
+        },
+        minLength: 2,
+        select: function(event, ui) {
+        	
+            $.post("{{url_for('getPatient')}}",{"data" : ui.item.value}, function(results, status){
+        		
+        		$('#notes').val(results[0].notes)
+        		$('#email').val(results[0].email)
+        		$('#phoneNumber').val(results[0].phoneNumber)
+   			 });
+            // not in your question, but might help later
+        }
+    });
+})
 	/*----------------------------------------------------------------------*/
 	   /* $('#add-event').click(function () {
 	        var title = $('#title').val(),

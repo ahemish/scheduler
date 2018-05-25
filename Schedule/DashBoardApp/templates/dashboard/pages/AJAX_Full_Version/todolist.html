@@ -58,10 +58,14 @@ height: 20px;
 		<!-- end widget -->
 
 		
-	
+	<div>
+        <input name="autocomplete" type="text" id="title" class="form-control input-lg"/>
+    </div>
 		<!-- end widget -->
 
 	</div>
+	
+
 
 
 <!-- end row -->
@@ -189,4 +193,25 @@ $(function() {
   $(document).on('click', ".todo-item-done", completeTodoItem)
 
 });
+
+$(function() {
+    $("#title").autocomplete({
+        source:function(request, response) {
+            $.getJSON("{{url_for('autocomplete')}}",{
+                q: request.term, // in flask, "q" will be the argument to look for using request.args
+            }, function(data) {
+                response(data.matching_results);
+               // matching_results from jsonify
+            });
+        },
+        minLength: 2,
+        select: function(event, ui) {
+        	
+            $.post("{{url_for('getPatient')}}",{"data" : ui.item.value}, function(results, status){
+        		console.log(results);
+   			 });
+            // not in your question, but might help later
+        }
+    });
+})
 </script>
