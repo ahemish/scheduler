@@ -177,6 +177,13 @@ def todolist():
 	return render_template('dashboard/pages/AJAX_Full_Version/todolist.html')
 
 
+@app.route('/patientappointment')
+def patientappointment():
+
+   
+	
+	return render_template('dashboard/pages/AJAX_Full_Version/patientappointment.html')
+
 
 
 
