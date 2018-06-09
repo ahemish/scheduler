@@ -386,6 +386,10 @@ margin: 0;
 	// PAGE RELATED SCRIPTS
 
 	// pagefunction
+
+	
+	
+	
 	function hideEvents()
     		{
     		
@@ -628,7 +632,7 @@ margin: 0;
     		});
     		
     		
- 	 $(function() {
+ 	 $(function nameSerach() {
     $("#title").autocomplete({
         source:function(request, response) {
             $.getJSON("{{url_for('autocomplete')}}",{
@@ -638,7 +642,7 @@ margin: 0;
                // matching_results from jsonify
             });
         },
-        minLength: 2,
+        minLength: 1,
         select: function(event, ui) {
         	
             $.post("{{url_for('getPatient')}}",{"data" : ui.item.value}, function(results, status){
@@ -705,6 +709,12 @@ margin: 0;
 			        },
 			
 			        select: function (start, end, allDay) {
+			        
+			        	//RESET FORM when selected 
+			        	$('#title').val("");
+	           			$("#phoneNumber").val("");
+	           			$("#email").val("");
+	           			$("#notes").val("");
 			        	$('#start').val(start.format()),
 	            		$('#end').val(end.format());
 			        	dialog.dialog( "open" );
@@ -774,7 +784,7 @@ margin: 0;
  						 },
  				
 					
-			
+					//list of event objects stored in the database loaded with page
 			        events: 
 			         {{event|tojson|safe}},
 					

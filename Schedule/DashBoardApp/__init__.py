@@ -47,7 +47,7 @@ def getAppoinments():
             i["className"] = i.get("className", "").split(" ")
         
            
-    print(appointments)
+   
     
    
     
@@ -64,7 +64,7 @@ def addPatient(aAppointment):
     patientDetails = dfRename[['id','name','appointmentType' , 'email' , 'phoneNumber', 'notes','start','end']]
     
     patientDetails.to_sql('patients', con=db, if_exists='append',index=False)
-    print(patientDetails)
+    
 
 
 
@@ -72,7 +72,7 @@ def addPatient(aAppointment):
 def autocomplete():
     search = request.args.get('q')
     query = db_session.session.query(Event.title).filter(Event.title.like('%' + str(search) + '%'))
-    results = [mv[0] for mv in query.all()]
+    results = [p[0] for p in query.all()]
     return jsonify(matching_results=results)
 
 

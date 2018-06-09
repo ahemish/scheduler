@@ -79,8 +79,24 @@
 		width:100%;
       }
       
+      ul.ui-autocomplete.ui-menu {
+  z-index: 1000;
+}
+.ui-autocomplete.ui-front
+{
+z-index: 1051;
+}
       
- 
+ .ui-autocomplete
+        {
+            position:absolute;
+            cursor:default;
+            z-index:4000 !important;
+            overflow: visible;
+            
+        }
+        
+   
 	  </style>
 	
 	</head>
@@ -154,7 +170,7 @@
 							<input type="radio" name="activity" id="ajax/notify/notifications.html">
 							notify (3) </label>
 						<label class="btn btn-default">
-							<input type="radio" name="activity" id="ajax/notify/tasks.html">
+							<input type="radio" name="activity" id="{{url_for('todolist')}}">
 							Tasks (4) </label>
 					</div>
 
@@ -263,15 +279,14 @@
 				</div>
 				<!-- end search mobile button -->
 				
-				<!-- #SEARCH -->
+				<!-- #SEARCH Patient -->
 				<!-- input: search field -->
-				<form action="#ajax/search.html" class="header-search pull-right">
-					<input id="search-fld" type="text" name="param" placeholder="Find reports and more">
-					<button type="submit">
-						<i class="fa fa-search"></i>
-					</button>
-					<a href="javascript:void(0);" id="cancel-search-js" title="Cancel Search"><i class="fa fa-times"></i></a>
+				<div class="pull-right"">
+			
+				<form  class="header-search pull-right" id="searchForm">
+					<input id="search-fld" type="text" name="param" maxlength="40"  placeholder="Patient Search" >
 				</form>
+				</div>
 				<!-- end input: search field -->
 
 				<!-- fullscreen button -->
@@ -280,68 +295,9 @@
 				</div>
 				<!-- end fullscreen button -->
 
-				<!-- #Voice Command: Start Speech -->
-				<!-- NOTE: Voice command button will only show in browsers that support it. Currently it is hidden under mobile browsers. 
-						   You can take off the "hidden-sm" and "hidden-xs" class to display inside mobile browser-->
-				<div id="speech-btn" class="btn-header transparent pull-right hidden-sm hidden-xs">
-					<div> 
-						<a href="javascript:void(0)" title="Voice Command" data-action="voiceCommand"><i class="fa fa-microphone"></i></a> 
-						<div class="popover bottom"><div class="arrow"></div>
-							<div class="popover-content">
-								<h4 class="vc-title">Voice command activated <br><small>Please speak clearly into the mic</small></h4>
-								<h4 class="vc-title-error text-center">
-									<i class="fa fa-microphone-slash"></i> Voice command failed
-									<br><small class="txt-color-red">Must <strong>"Allow"</strong> Microphone</small>
-									<br><small class="txt-color-red">Must have <strong>Internet Connection</strong></small>
-								</h4>
-								<a href="javascript:void(0);" class="btn btn-success" onclick="commands.help()">See Commands</a> 
-								<a href="javascript:void(0);" class="btn bg-color-purple txt-color-white" onclick="$('#speech-btn .popover').fadeOut(50);">Close Popup</a> 
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- end voice command -->
+				
 
-				<!-- multiple lang dropdown : find all flags in the flags page -->
-				<ul class="header-dropdown-list hidden-xs">
-					<li>
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-us" alt="United States"> <span> US</span> <i class="fa fa-angle-down"></i> </a>
-						<ul class="dropdown-menu pull-right">
-							<li class="active">
-								<a href="javascript:void(0);"><img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-us" alt="United States"> English (US)</a>
-							</li>
-							<li>
-								<a href="javascript:void(0);"><img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-fr" alt="France"> Français</a>
-							</li>
-							<li>
-								<a href="javascript:void(0);"><img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-es" alt="Spanish"> Español</a>
-							</li>
-							<li>
-								<a href="javascript:void(0);"><img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-de" alt="German"> Deutsch</a>
-							</li>
-							<li>
-								<a href="javascript:void(0);"><img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-jp" alt="Japan"> 日本語</a>
-							</li>
-							<li>
-								<a href="javascript:void(0);"><img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-cn" alt="China"> 中文</a>
-							</li>	
-							<li>
-								<a href="javascript:void(0);"><img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-it" alt="Italy"> Italiano</a>
-							</li>	
-							<li>
-								<a href="javascript:void(0);"><img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-pt" alt="Portugal"> Portugal</a>
-							</li>
-							<li>
-								<a href="javascript:void(0);"><img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-ru" alt="Russia"> Русский язык</a>
-							</li>
-							<li>
-								<a href="javascript:void(0);"><img src="{{url_for('static', filename = 'img/blank.gif')}}" class="flag flag-kr" alt="Korea"> 한국어</a>
-							</li>						
-							
-						</ul>
-					</li>
-				</ul>
-				<!-- end multiple lang -->
+					<!-- end multiple lang -->
 
 			</div>
 			<!-- end pulled right: nav area -->
@@ -391,17 +347,17 @@
 								<a href="{{url_for('dashboard')}}" title="Dashboard"><span class="menu-item-parent">Analytics Dashboard</span></a>
 							</li>
 							<li class="">
-								<a href="{{url_for('overview')}}" title="Dashboard"><span class="menu-item-parent">Overview</span></a>
+								<a href="{{url_for('overview')}}" title="Overview"><span class="menu-item-parent">Overview</span></a>
 							</li>
 							<li class="">
-								<a href="{{url_for('calendar')}}" title="Dashboard"><span class="menu-item-parent">Calendar</span></a>
+								<a href="{{url_for('calendar')}}" title="Calendar"><span class="menu-item-parent">Calendar</span></a>
 							</li>
 							</li>
 							<li class="">
-								<a href="{{url_for('todolist')}}" title="Dashboard"><span class="menu-item-parent">To Do List</span></a>
+								<a href="{{url_for('todolist')}}" title="ToDoList"><span class="menu-item-parent">To Do List</span></a>
 							</li>
 							<li class="">
-								<a href="{{url_for('patientappointment')}}" title="Dashboard"><span class="menu-item-parent">Patient Appointment</span></a>
+								<a href="{{url_for('patientappointment')}}" id="pa" title="PatientAppointment"><span class="menu-item-parent">Patient Appointment</span></a>
 							</li>
 						</ul>	
 					</li>
@@ -522,7 +478,7 @@
 					<a href="#ajax/inbox.html" class="jarvismetro-tile big-cubes bg-color-blue"> <span class="iconbox"> <i class="fa fa-envelope fa-4x"></i> <span>Mail <span class="label pull-right bg-color-darken">14</span></span> </span> </a>
 				</li>
 				<li>
-					<a href="#ajax/calendar.html" class="jarvismetro-tile big-cubes bg-color-orangeDark"> <span class="iconbox"> <i class="fa fa-calendar fa-4x"></i> <span>Calendar</span> </span> </a>
+					<a href="#{{url_for('calendar')}}" class="jarvismetro-tile big-cubes bg-color-orangeDark"> <span class="iconbox"> <i class="fa fa-calendar fa-4x"></i> <span>Calendar</span> </span> </a>
 				</li>
 				<li>
 					<a href="#ajax/gmap-xml.html" class="jarvismetro-tile big-cubes bg-color-purple"> <span class="iconbox"> <i class="fa fa-map-marker fa-4x"></i> <span>Maps</span> </span> </a>
@@ -634,6 +590,43 @@
 		
 		</script>
 -->
+
+	<script>
+	
+	
+      
+  
+   
+	 $(function nameSerach() {
+    $("#search-fld").autocomplete({
+        source:function(request, response) {
+            $.getJSON("{{url_for('autocomplete')}}",{
+                q: request.term, // in flask, "q" will be the argument to look for using request.args
+            }, function(data) {
+                response(data.matching_results);
+				console.log(data.matching_results);
+            });
+        },
+        minLength: 1,
+        
+        select: function(event, ui) {
+        	
+            $.post("{{url_for('getPatient')}}",{"data" : ui.item.value}, function(results, status){
+        	
+				
+   			 });
+            
+        }
+        
+        
+        
+    })
+});
+	
+	
+	
+	</script>
+
 	</body>
 
 </html>
