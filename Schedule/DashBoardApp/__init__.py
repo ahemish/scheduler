@@ -11,14 +11,14 @@ import datetime
 import sqlite3
 import pandas as pd
 import random
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 
 
-db = sqlite3.connect('/Volumes/Disk 2/Users/arranhemish/sqlite/schedule.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Volumes/Disk 2/Users/arranhemish/sqlite/schedule.db'
+db = sqlite3.connect('sqlite/schedule.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqlite/schedule.db'
 db_session = SQLAlchemy(app)
 
 

@@ -19,6 +19,9 @@ height: 0;
 width: 0;
 margin: 0;
 }
+ 
+
+
 </style>
 
 <div class="row">
@@ -395,7 +398,6 @@ margin: 0;
     		
     			
  				$( '.fc-title' ).toggle();
-			
     		}
     		
        
@@ -715,8 +717,9 @@ margin: 0;
 	           			$("#phoneNumber").val("");
 	           			$("#email").val("");
 	           			$("#notes").val("");
-			        	$('#start').val(start.format()),
-	            		$('#end').val(end.format());
+			        	$('#start').val(start.format("YYYY-MM-DD HH:mm")),
+			        	//end is start plus 45
+	            		$('#end').val( moment(start.format()).add('45' , 'm').format("YYYY-MM-DD HH:mm"));
 			        	dialog.dialog( "open" );
 			            $('#calendar').fullCalendar('unselect');
 			        	
@@ -910,7 +913,7 @@ margin: 0;
 		if (debugState){
 			root.console.log("✔ Calendar destroyed");
 		} 
-	}
+	} 
 
 	// end destroy
 
