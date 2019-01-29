@@ -70,8 +70,8 @@ margin: 0;
 					<form id="add-event-form" class="appointmentForm">
 						<fieldset>
 							<div class="form-group">
-								<label>Appointment Name</label>
-								<input class="form-control"  id="title" name="title" maxlength="40" type="text" placeholder="Appointment Name" autocomplete="nope">
+								<label>Patient Name</label>
+								<input class="form-control"  id="title" name="title" maxlength="40" type="text" placeholder="Patient Name" autocomplete="nope">
 							</div>
 							<div class="form-group">
 								<label>Appointment Type</label>
@@ -110,29 +110,7 @@ margin: 0;
 								<input class="form-control"  id="end" name="end" maxlength="40" type="text" placeholder="end date">
 							</div>
 
-							<div class="form-group">
-								<label>Select Event Color</label>
-								<div class="btn-group btn-group-justified btn-select-tick" data-toggle="buttons">
-									<label class="btn bg-color-darken active">
-										<input type="radio" name="priority" id="option1" value="bg-color-darken txt-color-white" checked>
-										<i class="fa fa-check txt-color-white"></i> </label>
-									<label class="btn bg-color-blue">
-										<input type="radio" name="priority" id="option2" value="bg-color-blue txt-color-white">
-										<i class="fa fa-check txt-color-white"></i> </label>
-									<label class="btn bg-color-orange">
-										<input type="radio" name="priority" id="option3" value="bg-color-orange txt-color-white">
-										<i class="fa fa-check txt-color-white"></i> </label>
-									<label class="btn bg-color-greenLight">
-										<input type="radio" name="priority" id="option4" value="bg-color-greenLight txt-color-white">
-										<i class="fa fa-check txt-color-white"></i> </label>
-									<label class="btn bg-color-blueLight">
-										<input type="radio" name="priority" id="option5" value="bg-color-blueLight txt-color-white">
-										<i class="fa fa-check txt-color-white"></i> </label>
-									<label class="btn bg-color-red">
-										<input type="radio" name="priority" id="option6" value="bg-color-red txt-color-white">
-										<i class="fa fa-check txt-color-white"></i> </label>
-								</div>
-							</div>
+						
 
 						</fieldset>
 						<div class="form-actions">
@@ -166,7 +144,7 @@ margin: 0;
 					<form id="add-event-form" class="appointmentForm">
 						<fieldset>
 							<div class="form-group">
-								<label>Appointment Name</label>
+								<label>Patient Name</label>
 								<input class="form-control"  id="appointmentTitle" name="appointmentTitle" maxlength="40" type="text" placeholder="Event Title">
 							</div>
 							<div class="form-group">
@@ -206,7 +184,7 @@ margin: 0;
 								<input class="form-control"  id="appointmentEnd" name="appointmentEnd" maxlength="40" type="text" placeholder="end date">
 							</div>
 
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label>Select Event Color</label>
 								<div class="btn-group btn-group-justified btn-select-tick" data-toggle="buttons">
 									<label class="btn bg-color-darken active">
@@ -228,7 +206,7 @@ margin: 0;
 										<input type="radio" name="appointmentPriority" id="option6" value="bg-color-red txt-color-white">
 										<i class="fa fa-check txt-color-white"></i> </label>
 								</div>
-							</div>
+							</div> -->
 
 						</fieldset>
 						<div class="form-actions">
@@ -290,13 +268,10 @@ margin: 0;
 								<a href="javascript:void(0);" id="mt">Month</a>
 							</li>
 							<li>
-								<a href="javascript:void(0);" id="ag">Agenda</a>
+								<a href="javascript:void(0);" id="ag">Week</a>
 							</li>
 							<li>
 								<a href="javascript:void(0);" id="td">Today</a>
-							</li>
-							<li>
-								<a href="javascript:void(0);" id="wk">Week</a>
 							</li>
 						</ul>
 					</div>
@@ -421,41 +396,20 @@ margin: 0;
 	        right: 'prev,today,next'
 	    };
 	
-	    var initDrag = function (e) {
-	        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-	        // it doesn't need to have a start or end
+	 
 	
-	        var eventObject = {
-	            title: $.trim(e.children().text()), // use the element's text as the event title
-	            description: $.trim(e.children('span').attr('data-description')),
-	            icon: $.trim(e.children('span').attr('data-icon')),
-	            start: $.trim(e.children('span').attr('data-start')),
-	            end: $.trim(e.children('span').attr('data-end')),
-	            className: $.trim(e.children('span').attr('class')) // use the element's children as the event class
-	        };
-	        // store the Event Object in the DOM element so we can get to it later
-	        e.data('eventObject', eventObject);
-	
-	        // make the event draggable using jQuery UI
-	        e.draggable({
-	            zIndex: 999,
-	            revert: true, // will cause the event to go back to its
-	            revertDuration: 0 //  original position after the drag
-	        });
-	    };
-	
-	    var addEvent = function (title, priority, description, icon , start , end) {
-	        title = title.length === 0 ? "Untitled Event" : title;
-	        description = description;
-	        icon = icon;
-	        priority = priority.length === 0 ? "label label-default" : priority;
-			start = start.length === 0 ? " " : start;
-			end = end.length === 0 ? " " : end;
-	        var html = $('<li><span class="' + priority + '" data-description="' + description + '" data-icon="' + icon + '" data-start="' + start + '" data-end="' + end +'">' + title + '</span></li>').prependTo('ul#external-events').hide().fadeIn();
+	    var addEvent = function (patientName, appointmentColour, appointmentType, appointmentType  , start , end) {
+	        // title = title.length === 0 ? "Untitled Event" : title;
+	        // description = description;
+	        // icon = icon;
+	        // priority = priority.length === 0 ? "label label-default" : priority;
+			// start = start.length === 0 ? " " : start;
+			// end = end.length === 0 ? " " : end;
+	        // var html = $('<li><span class="' + priority + '" data-description="' + description + '" data-icon="' + icon + '" data-start="' + start + '" data-end="' + end +'">' + title + '</span></li>').prependTo('ul#external-events').hide().fadeIn();
+			var html = $('<li><span class="bg-color-darken txt-color-white" data-description="app" data-icon="dd" data-start="' + start + '" data-end="' + end +'">hello</span></li>').prependTo('ul#external-events').hide().fadeIn();
 	
 	        $("#event-container").effect("highlight", 800);
 	
-	        initDrag(html);
 	    };
 	
 	    /* initialize the external events
@@ -478,7 +432,7 @@ margin: 0;
     						data: JSON.stringify({"id": aEvent.id , "title" : aEvent.title}),
     						contentType: 'application/json;charset=UTF-8',
     						success: function(result) {
-        					console.log(result);
+        					//console.log(result);
     						}
 						});
 	     	 appointmentDialog.dialog( "close" );
@@ -491,7 +445,7 @@ margin: 0;
 	     
 	     	 var title = $('#appointmentTitle').val(),
 	            priority = $('input:radio[name=appointmentPriority]:checked').val(),
-	            icon = $('input:radio[name=appointmentIconselect]:checked').val(),
+	            appointmentType = $('input:radio[name=appointmentIconselect]:checked').val(),
 	            description = icon,
 	            start = $('#appointmentStart').val(),
 	            end = $('#appointmentEnd').val(),
@@ -515,7 +469,8 @@ margin: 0;
     								"notes" : notes,
 			                        "oldTitle" : aEvent.title,
 			                        "patientId" : patientId,
-			                        "canceled" : false,
+									"appointmentType" : appointmentType,
+			                        "canceled" : false
 			                    };
 			
 				$.ajax({
@@ -535,52 +490,70 @@ margin: 0;
 	     }
 	
 	    }
-	    
+	    /*------------------------ Add Appointment ------------------------ */
+
 	    function addAppointment () {
-	        var title = $('#title').val(),
-	            priority = $('input:radio[name=priority]:checked').val(),
-	            icon = $('input:radio[name=iconselect]:checked').val(),
-	            description = icon,
+	        var patientName = $('#title').val(),
+	            //priority = $('input:radio[name=priority]:checked').val(),
+	            appointmentType = $('input:radio[name=iconselect]:checked').val(),
 	            start = $('#start').val(),
 	            end = $('#end').val(),
 	            allDay = false,
 	            phoneNumber = $("#phoneNumber").val(),
 	            email = $("#email").val(),
 	            notes = $("#notes").val();
-	            var id = String(date.getDate()) + date.getMonth() + (date.getHours() + Math.floor((Math.random() * 1000) + 1));	
-	            var patientId = date.getDate() + date.getMonth() + Math.floor((Math.random() * 1000) + 1);	
 
+				if(appointmentType == "New Patient")
+				{
+					var appointmentColour = "bg-color-darken txt-color-white";
+				}
+				else
+				{
+					var appointmentColour = "bg-color-blue txt-color-white";
+					
+				}
 			var event;
-	        addEvent(title, priority, description, icon , start , end);
-	        
-	       if (title) {
-			             event =   {
-			             			id : id,
-			                        title: title,
-			                        description:description,
-			                        start: start,
-			                        end: end,
-			                        allDay: allDay,
-			                        className: priority,
-			                        "phoneNumber" : phoneNumber,
-			                        "email" : email,
-			                        "notes" : notes,
-			                        "patientId" : patientId,
-			                        "canceled" : false,
+	        addEvent(patientName, appointmentColour, appointmentType, appointmentType , start , end);
+	       if (patientName) {
+			   			//Used to render Event on fullcalendar Key Names are important
+			             new_appointement =   {
+									"title": patientName,
+									"phoneNumber": phoneNumber,
+									"notes" : notes,
+									"email" : email,
+			                        "start": start,
+			                        "end": end,
+			                        "allDay": allDay,
+			                        "className": appointmentColour,
+									"icon" : appointmentType,
+			                        "canceled" : false
+
 			                        
 			                    };
+								
 			                    
-			                    $('#calendar').fullCalendar('renderEvent', event, true // make the event "stick"
+			                    $('#calendar').fullCalendar('renderEvent', new_appointement, true // make the event "stick"
 			                );
 			            }
-			            console.log(event);
+			            //console.log(event);
 			            $.ajax({
     						type : "POST",
     						url : "{{ url_for('addAppointment') }}",
-    						data: JSON.stringify(event),
-    						contentType: 'application/json;charset=UTF-8',
+    						data: JSON.stringify({
+									"patientName": patientName,
+									"phoneNumber": phoneNumber,
+									"notes" : notes,
+									"email" : email,
+			                        "start": start,
+			                        "end": end,
+			                        "allDay": allDay,
+			                        "appointmentColour": appointmentColour,
+									"appointmentType" : appointmentType,
+			                        "canceled" : false
+			                    }),
+    						contentType: 'application/json',
     						success: function(result) {
-        					console.log(result);
+        					//console.log(result);
     						}
 						});
 			
@@ -589,7 +562,7 @@ margin: 0;
 	    };
 	    
 	    
-	    
+	    /* ------------------------ Add Appointment End ------------------------ */
 	    	
 	    	
 	    	dialog = $( "#newEvent" ).dialog({
@@ -657,21 +630,8 @@ margin: 0;
         }
     });
 })
-	/*----------------------------------------------------------------------*/
-	   /* $('#add-event').click(function () {
-	        var title = $('#title').val(),
-	            priority = $('input:radio[name=priority]:checked').val(),
-	            description = $('#description').val(),
-	            start = $('#start').val(),
-	            end = $('#end').val(),
-	            icon = $('input:radio[name=iconselect]:checked').val();
 	
-	        addEvent(title, priority, description, icon , start , end);
-	    }); */
-	
-	    /* initialize the calendar
-		 -----------------------------------------------------------------*/
-	
+
 	    fullviewcalendar = $('#calendar').fullCalendar({
 	
 	        header: hdr,
@@ -701,14 +661,7 @@ margin: 0;
 			            // render the event on the calendar
 			            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 			            $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-						
-			            // is the "remove after drop" checkbox checked?
-			            if ($('#drop-remove').is(':checked')) {
-			                // if so, remove the element from the "Draggable Events" list
-			                $(this).remove();
-			            }
-			
-			        },
+					},
 			
 			        select: function (start, end, allDay) {
 			        
@@ -726,36 +679,7 @@ margin: 0;
 			        },
 			        
 			    
-			        /*
-			         eventClick: function(calEvent, jsEvent, view) {
-						
-						console.log(calEvent);
-						
-						
-						if (confirm('Delete Event?')) {
-							$.ajax({
-    						type : "POST",
-    						url : "{{ url_for('deleteAppointment') }}",
-    						data: JSON.stringify({"id": calEvent.id , "title" : calEvent.title}),
-    						contentType: 'application/json;charset=UTF-8',
-    						success: function(result) {
-        					console.log(result);
-    						}
-						});
-							$('#calendar').fullCalendar( 'removeEvents' , calEvent._id);
-   						 	
-						} else {
- 					   // Do nothing!
-						}
-						
-						
-					
-						
-						
-  						},
-  					
-        
-			       */
+			     
 			        
 			        
 			        eventDrop: function(event, delta, revertFunc) {
@@ -778,11 +702,11 @@ margin: 0;
     											}),
     						contentType: 'application/json;charset=UTF-8',
     						success: function(result) {
-        					console.log(result);
+        					//console.log(result);
     						}
 						});
 
-   					console.log(event);
+   					//console.log(event);
 						$('#calendar').fullCalendar('unselect');
  						 },
  				
@@ -792,22 +716,25 @@ margin: 0;
 			         {{event|tojson|safe}},
 					
 			        eventRender: function (event, element, icon) {
-			            if (!event.description == "") {
-			                element.find('.fc-title').append("<br/><span class='ultra-light'>" + event.description +
+						console.log(event)
+						console.log(element)
+			            if (!event.appointment_type == "") {
+							
+			                element.find('.fc-title').append("<br/><span class='ultra-light'>" + event.appointment_type +
 			                    "</span>");
 			            }
-			            if (!event.icon == "") {
-			                element.find('.fc-title').append("<i class='air air-top-right fa " + event.icon +
+			            if (!event.appointment_type == "") {
+			                element.find('.fc-title').append("<i class='air air-top-right fa " + event.appointment_type +
 			                    " '></i>");
 			            }
 			            
 			            element.bind('dblclick', function() {
 							$('#appointmentTitle').val(event.title);
-	           				$('input[name="appointmentIconselect"][value="'+event.description+'"]').click();
-	           				$('input[name="appointmentPriority"][value="'+event.className.join(" ")+'"]').click();
+	           				$('input[name="appointmentIconselect"][value="'+event.appointment_type+'"]').click();
+	           				$('input[name="appointmentPriority"][value="'+event.appointment_colour.join(" ")+'"]').click();
 	           				$('#appointmentStart').val(event.start.format());
 	            			$('#appointmentEnd').val(event.end.format());
-	           				$("#appointmentPhoneNumber").val(event.phoneNumber);
+	           				$("#appointmentPhoneNumber").val(event.phone_number);
 	           				$("#appointmentEmail").val(event.email);
 	           				$("#appointmentNotes").val(event.notes);
 	           				
