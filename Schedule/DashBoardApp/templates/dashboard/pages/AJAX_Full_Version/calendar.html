@@ -57,14 +57,20 @@ margin: 0;
 
 	<div >
 		<!-- new widget -->
-		
-		<div id="newEvent" class="jarviswidget jarviswidget-color-blueDark " title = "New Appointment">
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"data-backdrop='static' aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">New Appointment</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+					</div>
+		<div class="modal-body">
 			
 
 			<!-- widget div-->
-			<div>
-
-				<div class="widget-body">
 					<!-- content goes here -->
 
 					<form id="add-event-form" class="appointmentForm">
@@ -75,16 +81,16 @@ margin: 0;
 							</div>
 							<div class="form-group">
 								<label>Appointment Type</label>
-								<div class="btn-group btn-group-sm btn-group-justified" data-toggle="buttons">
-									<label class="btn btn-default">
-										<input type="radio" name="iconselect" id="icon-1" value="New Patient" checked>
-										New Patient
-										</label>
-									<label class="btn btn-default">
-										<input type="radio" name="iconselect" id="icon-2" value="Follow up">
-										Follow Up
-									</label>
-								</div>
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									  Dropdown button
+									</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									  <a class="dropdown-item" name="iconselect" id="icon-1" href="#">New Patient</a>
+									  <a class="dropdown-item" name="iconselect" id="icon-2" href="#">Follow Up</a>
+									  <a class="dropdown-item" href="#">Review</a>
+									</div>
+								  </div>
 							</div>
 								<div class="form-group">
 								<label>Phone number</label>
@@ -110,8 +116,7 @@ margin: 0;
 								<input class="form-control"  id="end" name="end" maxlength="40" type="text" placeholder="end date">
 							</div>
 
-						
-
+							<button class="btn btn-primary mb-2">Add Event</button>
 						</fieldset>
 						<div class="form-actions">
 							<!--<div class="row">
@@ -126,8 +131,10 @@ margin: 0;
 
 					<!-- end content -->
 				</div>
-
-			</div>
+				</div>
+				</div>
+				</div>
+				
 			<!-- end widget div -->
 		</div>
 		
@@ -378,12 +385,6 @@ margin: 0;
 	 
 	
 	    var addEvent = function (patientName, appointmentColour, appointmentType, appointmentType  , start , end) {
-	        // title = title.length === 0 ? "Untitled Event" : title;
-	        // description = description;
-	        // icon = icon;
-	        // priority = priority.length === 0 ? "label label-default" : priority;
-			// start = start.length === 0 ? " " : start;
-			// end = end.length === 0 ? " " : end;
 	        // var html = $('<li><span class="' + priority + '" data-description="' + description + '" data-icon="' + icon + '" data-start="' + start + '" data-end="' + end +'">' + title + '</span></li>').prependTo('ul#external-events').hide().fadeIn();
 			var html = $('<li><span class="bg-color-darken txt-color-white" data-description="app" data-icon="dd" data-start="' + start + '" data-end="' + end +'">hello</span></li>').prependTo('ul#external-events').hide().fadeIn();
 	
@@ -673,6 +674,7 @@ margin: 0;
 			        	//end is start plus 45
 	            		$('#end').val( moment(start.format()).add('45' , 'm').format("YYYY-MM-DD HH:mm"));
 			        	dialog.dialog( "open" );
+						$("#exampleModal").modal('show')
 			            $('#calendar').fullCalendar('unselect');
 			        	
 			        },
