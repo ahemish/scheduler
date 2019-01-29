@@ -71,7 +71,7 @@ def addAppointment():
     appointment_type=data['appointmentType']
     canceled=data['canceled']
     
-    #Does Patient already exist
+    #Does Patient already exist add if not
     patient_id = db_session.session.query(Patient.id).filter_by(name=patient_name).scalar()
     if patient_id is  None:
         new_patient = Patient(name=patient_name,email=patient_email,phone_number=patient_phone_number,notes=patient_notes)
@@ -131,8 +131,6 @@ def deleteAppointment():
 @app.route('/')
 def homepage():
 
-    #cursor.execute('select name from photos where tag like "" ')
-    #results = cursor.fetchall()
     return render_template('dashboard/pages/AJAX_Full_Version/index.html')
 
 	

@@ -494,7 +494,6 @@ margin: 0;
 
 	    function addAppointment () {
 	        var patientName = $('#title').val(),
-	            //priority = $('input:radio[name=priority]:checked').val(),
 	            appointmentType = $('input:radio[name=iconselect]:checked').val(),
 	            start = $('#start').val(),
 	            end = $('#end').val(),
@@ -525,7 +524,7 @@ margin: 0;
 			                        "end": end,
 			                        "allDay": allDay,
 			                        "className": appointmentColour,
-									"icon" : appointmentType,
+									"description" : appointmentType,
 			                        "canceled" : false
 
 			                        
