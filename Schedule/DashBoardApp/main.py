@@ -79,7 +79,7 @@ def addAppointment():
         new_patient = Patient(name=patient_name,email=patient_email,phone_number=patient_phone_number,notes=patient_notes)
         db.session.add(new_patient)
         db.session.commit()
-        patient_id = Patient.query.filter_by(name=patient_name).first().id
+        patient_id = new_patient.id #Patient.query.filter_by(name=patient_name).first().id
 
     new_appointment = Appointment(
         start =start ,

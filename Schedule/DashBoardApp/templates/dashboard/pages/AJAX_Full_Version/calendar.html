@@ -59,18 +59,18 @@ margin: 0;
 		<!-- new widget -->
 		<!-- Modal -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"data-backdrop='static' aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
+			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLabel">New Appointment</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-					</div>
-		<div class="modal-body">
+						</div>
+					<div class="modal-body">
 			
 
-			<!-- widget div-->
+					<!-- widget div-->
 					<!-- content goes here -->
 
 					<form id="add-event-form" class="appointmentForm">
@@ -86,9 +86,9 @@ margin: 0;
 									  Dropdown button
 									</button>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									  <a class="dropdown-item" name="iconselect" id="icon-1" href="#">New Patient</a>
-									  <a class="dropdown-item" name="iconselect" id="icon-2" href="#">Follow Up</a>
-									  <a class="dropdown-item" href="#">Review</a>
+									  <a class="dropdown-item appointment-type" name="iconselect" value="New Patient" id="12" href="#">New Patient</a>
+									  <a class="dropdown-item appointment-type" name="iconselect2" value="Follow Up" id="423" href="">Follow Up</a>
+									  <a class="dropdown-item appointment-type" value="Review" href="">Review</a>
 									</div>
 								  </div>
 							</div>
@@ -106,31 +106,46 @@ margin: 0;
 							</div>
 							
 							<div class="form-group">
-								<label>start</label>
-								<input class="form-control"  id="start" name="start" maxlength="40" type="text" placeholder="start date">
+								<label>Start </label>
+								<!-- <input class="form-control"  id="start" name="start" maxlength="40" type="text" placeholder="start date"> -->
+								<select class="selectpicker">
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+									  </select>
+									<strong >   : </strong>
+										
+										<select class="selectpicker">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+										  </select> 
+										  <strong>- </strong>
+										  
+										  <label>End </label>
+
+										  <select class="selectpicker">
+												<option>1</option>
+												<option>2</option>
+												<option>3</option>
+											  </select>
+											<strong >   : </strong>
+												
+												<select class="selectpicker">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+												  </select>
 							</div>
 							
-							<div class="form-group">
-								<label>end</label>
-
-								<input class="form-control"  id="end" name="end" maxlength="40" type="text" placeholder="end date">
-							</div>
-
-							<button class="btn btn-primary mb-2">Add Event</button>
 						</fieldset>
-						<div class="form-actions">
-							<!--<div class="row">
-								<div class="col-md-12">
-									<button class="btn btn-default" type="button" id="add-event" >
-										Add Event
-									</button>
-								</div>
-							</div>-->
-						</div>
 					</form>
-
 					<!-- end content -->
 				</div>
+				<div class="modal-footer">
+						<button class="btn btn-primary mb-2" id="addEvent">Add Event</button>
+						<button class="btn btn-primary mb-2" data-dismiss="modal">Cancel</button>
+						</div>
 				</div>
 				</div>
 				</div>
@@ -196,13 +211,6 @@ margin: 0;
 
 						</fieldset>
 						<div class="form-actions">
-							<!--<div class="row">
-								<div class="col-md-12">
-									<button class="btn btn-default" type="button" id="add-event" >
-										Add Event
-									</button>
-								</div>
-							</div>-->
 						</div>
 					</form>
 
@@ -564,9 +572,8 @@ margin: 0;
 	    
 	    
 	    /* ------------------------ Add Appointment End ------------------------ */
-	    	
-	    	
-	    	dialog = $( "#newEvent" ).dialog({
+	    
+		dialog = $( "#newEvent" ).dialog({
       		autoOpen: false,
       		height: 700,
       		width: 350,
@@ -583,6 +590,18 @@ margin: 0;
         		}
         		}
     		});
+			
+	    var addEventButton = document.getElementById("addEvent")
+		addEventButton.addEventListener('click', function() {
+			addAppointment();
+		}, false);
+		
+		var typeOfAppointment = document.getElementsByClassName("appointment-type")
+		$(".appointment-type").on('click', function(event) {
+			event.preventDefault();
+			console.log(this.text);
+			console.log(event)
+		});
  	
  	$( "#addEvent" ).button().on( "click", function() {
       dialog.dialog( "open" );
