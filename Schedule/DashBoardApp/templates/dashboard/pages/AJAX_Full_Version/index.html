@@ -7,7 +7,7 @@
 		<meta name="author" content="">
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		
+		<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static',filename='css/your_style.css')}}">
 		<!-- #CSS Links -->
 		<!-- Basic Styles -->
 		<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static',filename='css/bootstrap.min.css')}}">
@@ -526,6 +526,8 @@ z-index: 1051;
 			}
 		</script>
 
+		<!-- IMPORTANT: APP CONFIG -->
+		<script src="{{ url_for('static',filename='js/calendar.app.js')}}"></script>
 		<!-- IMPORTANT: APP CONFIG -->
 		<script src="{{ url_for('static',filename='js/app.config.js')}}"></script>
 
