@@ -102,37 +102,8 @@ margin: 0;
 								<textarea class="form-control " placeholder="Notes" rows="3" maxlength="200" id="notes"></textarea>
 							</div>
 							
-							<div class="form-group times formBoxes">
-								<label>Start </label>
-								<!-- <input class="form-control"  id="start" name="start" maxlength="40" type="text" placeholder="start date"> -->
-								<select class="selectpicker">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-									  </select>
-									<strong >   : </strong>
-										
-										<select class="selectpicker">
-											<option>1</option>
-											<option>2</option>
-											<option>3</option>
-										  </select> 
-										  <strong>- </strong>
-										  
-										  <label>End </label>
-
-										  <select class="selectpicker">
-												<option>1</option>
-												<option>2</option>
-												<option>3</option>
-											  </select>
-											<strong >   : </strong>
-												
-												<select class="selectpicker">
-													<option>1</option>
-													<option>2</option>
-													<option>3</option>
-												  </select>
+							<div class="form-group times formBoxes div-inline btn-group" id="timeHours">
+						
 							</div>
 							
 						</fieldset>
@@ -297,8 +268,7 @@ margin: 0;
 	// pagefunction
 
 	
-	
-	
+	var t = timeSelector("#timeHours");
 	function hideEvents()
     		{
     		
@@ -531,6 +501,8 @@ margin: 0;
 				$(".phoneNumber").hide();
 	           	$(".email").hide();
 				$(".notes").hide();
+				$("#timeHours").html(timeSelector("#timeHours"));
+
 			}
 			else {
 				$('.title').show();
@@ -559,6 +531,12 @@ margin: 0;
  	
  	$( ".cancelButton" ).button().on( "click", function() {
 		$("#appointmentMenuButton").text("Appointment Type");
+	});
+	
+
+	$( ".timeSelector" ).button().on( "click", function() {
+		event.preventDefault();
+		// $("").text("Appointment Type");
     });
     
    	
@@ -581,7 +559,6 @@ margin: 0;
 			if (ui.item.value == "No Results")
 			{
 				ui.item.value = "";
-				
 			}
 			else{
             $.post("{{url_for('getPatient')}}",{"data" : ui.item.value}, function(results, status){
