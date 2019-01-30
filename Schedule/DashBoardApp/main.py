@@ -41,6 +41,8 @@ def autocomplete():
     search = request.args.get('q')
     query = db.session.query(Patient.name).filter(Patient.name.like('%' + str(search) + '%'))
     results = [p[0] for p in query.all()]
+    if len(results) == 0:
+        return jsonify(matching_results=['No Results'])
     return jsonify(matching_results=results)
 
 
