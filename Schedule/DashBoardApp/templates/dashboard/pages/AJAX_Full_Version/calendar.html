@@ -533,11 +533,12 @@ margin: 0;
 		$("#appointmentMenuButton").text("Appointment Type");
 	});
 	
-
-	$( ".timeSelector" ).button().on( "click", function() {
+	$(document).ready(function() {
+	$( ".timeSelector" ).button().on( "click", function(event) {
 		event.preventDefault();
 		// $("").text("Appointment Type");
-    });
+	});
+});
     
    	
     		
