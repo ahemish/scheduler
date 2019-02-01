@@ -501,7 +501,7 @@ margin: 0;
 				$(".phoneNumber").hide();
 	           	$(".email").hide();
 				$(".notes").hide();
-				$("#timeHours").html(timeSelector("#timeHours"));
+				$("#timeHours").html(timeSelector());
 
 			}
 			else {
@@ -510,7 +510,7 @@ margin: 0;
 	           	$(".email").show();
 				$(".notes").show();
 				$('#addEvent').show();
-				$('.times').show();
+				$("#timeHours").html(timeSelector());
 
 			}
 		}
@@ -533,16 +533,17 @@ margin: 0;
 		$("#appointmentMenuButton").text("Appointment Type");
 	});
 	
-	$(document).ready(function() {
-	$( ".timeSelector" ).button().on( "click", function(event) {
-		event.preventDefault();
-		// $("").text("Appointment Type");
-	});
-});
+
     
-   	
-    		
-    		
+$(document).on('click', ".timeSelector", function() {
+
+	event.preventDefault();
+	buttonId = "#" + $(this).closest("div").find("button").attr("id")
+	$(buttonId).text(this.text);
+});
+			
+
+
  	 $(function nameSerach() {
     $("#title").autocomplete({
         source:function(request, response) {
