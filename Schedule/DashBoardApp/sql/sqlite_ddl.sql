@@ -4,7 +4,7 @@ id integer primary key AUTOINCREMENT,
 start VARCHAR(255),
 end VARCHAR(255) ,
 all_day VARCHAR(255),
-class_name VARCHAR(255),
+appointment_colour VARCHAR(255),
 patient_id int,
 appointment_type VARCHAR(255),
 canceled VARCHAR(255)
