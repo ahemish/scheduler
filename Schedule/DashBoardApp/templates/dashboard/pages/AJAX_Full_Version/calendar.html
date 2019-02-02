@@ -267,8 +267,7 @@ margin: 0;
 
 	// pagefunction
 
-	
-	var t = timeSelector("#timeHours");
+	var r;
 	function hideEvents()
     		{
     		
@@ -410,14 +409,17 @@ margin: 0;
 
 	    function addAppointment () {
 	        var patientName = $('#title').val(),
-	            appointmentType = $('input:radio[name=iconselect]:checked').val(),
-	            start = $('#start').val(),
-	            end = $('#end').val(),
+				appointmentType = $("#appointmentMenuButton").text(),
+				startTime = $("#startHoursSelectorButton").text()  + ':' + $("#startMinutesSelectorButton").text() + ':00',
+				endTime = $("#endHoursSelectorButton").text()  + ':' + $("#endMinutesSelectorButton").text() + ':00',
+				start= document.getElementById("startHoursSelectorButton").getAttribute("data-date") + "T" + startTime,
+				end= document.getElementById("endHoursSelectorButton").getAttribute("data-date") + "T" + endTime,
 	            allDay = false,
 	            phoneNumber = $("#phoneNumber").val(),
 	            email = $("#email").val(),
 	            notes = $("#notes").val();
-
+			console.log(start);
+			console.log(end);
 				if(appointmentType == "New Patient")
 				{
 					var appointmentColour = "bg-color-darken txt-color-white";
@@ -501,16 +503,18 @@ margin: 0;
 				$(".phoneNumber").hide();
 	           	$(".email").hide();
 				$(".notes").hide();
-				$("#timeHours").html(timeSelector());
+				
+				
+
 
 			}
 			else {
 				$('.title').show();
+				$('.times').show();
 				$(".phoneNumber").show();
 	           	$(".email").show();
 				$(".notes").show();
 				$('#addEvent').show();
-				$("#timeHours").html(timeSelector());
 
 			}
 		}
@@ -614,13 +618,9 @@ $(document).on('click', ".timeSelector", function() {
 						//RESET FORM when selected 
 						$(".formBoxes").hide();
 						$(".appointmentType").show();
-			        	// $('#title').val("").hide();
-	           			// $("#phoneNumber").val("").hide();
-	           			// $("#email").val("").hide();
-	           			// $("#notes").val("").hide();
-			        	// $('#start').val(start.format("YYYY-MM-DD HH:mm")).hide(),
-			        	// //end is start plus 45
-	            		// $('#end').val( moment(start.format()).add('45' , 'm').format("YYYY-MM-DD HH:mm")).hide();
+						startDatetime  = new Date(start.format());
+						endDatetime  = new Date(end.format());
+						$("#timeHours").html(timeSelector(startDatetime, endDatetime));
 						$("#appointmentModal").modal('show')
 			            $('#calendar').fullCalendar('unselect');
 			        	
@@ -677,7 +677,7 @@ $(document).on('click', ".timeSelector", function() {
 			            element.bind('dblclick', function() {
 							$('#title').text(event.title).wrapInner("<b />");
 	           				$('input[name="iconselect"][value="'+event.appointment_type+'"]').click();
-	           				$('#start').val(event.start.format());
+							   $('#start').val(event.start.format());
 	            			$('#end').val(event.end.format());
 	           				$("#phoneNumber").val(event.phoneNumber);
 	           				$("#email").val(event.email);
