@@ -12,7 +12,7 @@ function hourMinutes(startOrEnd,dateTime)
 {
     var hours = dateTime.getHours();
     var minutes = dateTime.getMinutes();
-    date = dateTime.getFullYear() +'-'+ (("0" + (dateTime.getMonth() + 1)).slice(-2))+'-'+(("0" + (dateTime.getDate() + 1)).slice(-2));
+    date = dateTime.getFullYear() +'-'+ (("0" + (dateTime.getMonth() + 1)).slice(-2))+'-'+(("0" + (dateTime.getDate())).slice(-2));
     if(hours < 10)
     {
         hours = "0" + hours;

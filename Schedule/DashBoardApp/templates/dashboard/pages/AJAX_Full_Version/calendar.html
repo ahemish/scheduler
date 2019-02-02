@@ -111,8 +111,11 @@ margin: 0;
 					<!-- end content -->
 				</div>
 				<div class="modal-footer">
+						<button class="btn btn-primary mb-2 deleteAppointment" id="updateAppointment" data-dismiss="modal">Update</button>
+						<button class="btn btn-primary mb-2 deleteAppointment" id="deleteAppointment" data-dismiss="modal">Delete Appointment</button>
 						<button class="btn btn-primary mb-2 formBoxes" id="addEvent">Add Event</button>
 						<button class="btn btn-primary mb-2 cancelButton" id="cancelButton" data-dismiss="modal">Cancel</button>
+
 						</div>
 				</div>
 				</div>
@@ -345,14 +348,16 @@ margin: 0;
 
 	     function updateAppointment ()
 	     {
-			var patientName = $('#appointmentTitle').text(),
-	            appointmentType = $('input:radio[name=appointmentIconselect]:checked').val(),
-	            start = $('#appointmentStart').val(),
-	            end = $('#appointmentEnd').val(),
+			var patientName = $('#title').val(),
+				appointmentType = $("#appointmentMenuButton").text(),
+				startTime = $("#startHoursSelectorButton").text()  + ':' + $("#startMinutesSelectorButton").text() + ':00',
+				endTime = $("#endHoursSelectorButton").text()  + ':' + $("#endMinutesSelectorButton").text() + ':00',
+				start= document.getElementById("startHoursSelectorButton").getAttribute("data-date") + "T" + startTime,
+				end= document.getElementById("endHoursSelectorButton").getAttribute("data-date") + "T" + endTime,
 	            allDay = false,
-	            phoneNumber = $("#appointmentPhoneNumber").val(),
-	            email = $("#appointmentEmail").val(),
-	            notes = $("#appointmentNotes").val();
+	            phoneNumber = $("#phoneNumber").val(),
+	            email = $("#email").val(),
+	            notes = $("#notes").val();
 
 				if(appointmentType == "New Patient")
 				{
@@ -362,8 +367,8 @@ margin: 0;
 				{
 					var appointmentColour = "bg-color-blue txt-color-white";
 					
-				}     
-	    var event;
+				}
+			var event;
 	     
 			             update_appointment = {
 									"title": patientName,
@@ -418,8 +423,7 @@ margin: 0;
 	            phoneNumber = $("#phoneNumber").val(),
 	            email = $("#email").val(),
 	            notes = $("#notes").val();
-			console.log(start);
-			console.log(end);
+
 				if(appointmentType == "New Patient")
 				{
 					var appointmentColour = "bg-color-darken txt-color-white";
@@ -468,6 +472,8 @@ margin: 0;
     						contentType: 'application/json',
     						success: function(result) {
 							new_appointement['id'] = result['id']
+							$('#appointmentModal').modal('hide');
+                			$('.modal-backdrop').hide();
 							$('#calendar').fullCalendar('renderEvent', new_appointement, true);
     						}
 						});
@@ -523,6 +529,11 @@ margin: 0;
 		addEventButton.addEventListener('click', function() {
 			addAppointment();
 		});
+
+		var addEventButton = document.getElementById("updateAppointment")
+		addEventButton.addEventListener('click', function() {
+			updateAppointment();
+		});
 		
 		var typeOfAppointment = document.getElementsByClassName("appointment-type")
 		$(".appointment-type").on('click', function(event) {
@@ -538,7 +549,12 @@ margin: 0;
 	});
 	
 
-    
+    var DeleteEventButton = document.getElementById("deleteAppointment")
+	DeleteEventButton.addEventListener('click', function() {
+		deleteEvent();
+		});
+
+
 $(document).on('click', ".timeSelector", function() {
 
 	event.preventDefault();
@@ -622,6 +638,8 @@ $(document).on('click', ".timeSelector", function() {
 						endDatetime  = new Date(end.format());
 						$("#timeHours").html(timeSelector(startDatetime, endDatetime));
 						$("#appointmentModal").modal('show')
+						$("#deleteAppointment").hide();
+						$("#updateAppointment").hide();
 			            $('#calendar').fullCalendar('unselect');
 			        	
 			        },
@@ -676,15 +694,20 @@ $(document).on('click', ".timeSelector", function() {
 						//Set values on opening appointment dialog box
 			            element.bind('dblclick', function() {
 							$('#title').text(event.title).wrapInner("<b />");
-	           				$('input[name="iconselect"][value="'+event.appointment_type+'"]').click();
-							   $('#start').val(event.start.format());
-	            			$('#end').val(event.end.format());
-	           				$("#phoneNumber").val(event.phoneNumber);
-	           				$("#email").val(event.email);
-	           				$("#notes").val(event.notes);
-	           				
+							$("#appointmentMenuButton").text(event.appointment_type);
+							var startDatetime = new Date(event.start.format());
+							var endDatetime = new Date(event.end.format());
+							$("#timeHours").html(timeSelector(startDatetime, endDatetime));
+	           				$("#phoneNumber").val(event.phoneNumber).show();
+	           				$("#email").val(event.email).show();
+							$("#notes").val(event.notes).show();
+							$("#deleteAppointment").show();
+							$("#updateAppointment").show();
+							$(".formBoxes").show();
+							$("#addEvent").hide();
 							aEvent = event;
-							$("#appointmentModal").modal('show')
+							$("#appointmentModal").modal('show');
+
 
          					$('#calendar').fullCalendar('unselect');
       					});	
