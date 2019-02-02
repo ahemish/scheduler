@@ -1,9 +1,5 @@
 <style>
-.ui-dialog-titlebar {
-  background-color: "black";
-  background-image: none;
-  color: #000;
-}
+
 
 ul.ui-autocomplete.ui-menu {
   z-index: 1000;
@@ -57,77 +53,74 @@ margin: 0;
 
 	<div >
 		<!-- new widget -->
-		
-		<div id="newEvent" class="jarviswidget jarviswidget-color-blueDark " title = "New Appointment">
+		<!-- Modal -->
+		<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog"data-backdrop='static' aria-labelledby="appointmentModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title" id="appointmentModalLabel">New Appointment</h5>
+							<button type="button" class="close cancelButton" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+						</div>
+					<div class="modal-body">
 			
 
-			<!-- widget div-->
-			<div>
-
-				<div class="widget-body">
+					<!-- widget div-->
 					<!-- content goes here -->
 
-					<form id="add-event-form" class="appointmentForm">
+					<form id="add-event-form" class="appointmentForm ">
 						<fieldset>
-							<div class="form-group">
+								<div class="form-group appointmentType">
+										<label>Appointment Type</label>
+										<div class="dropdown">
+											<button class="btn btn-secondary dropdown-toggle" type="button" id="appointmentMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											  Appointment Type
+											</button>
+											<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											  <a class="dropdown-item appointment-type" name="iconselect" value="New Patient" id="12" href="#">New Patient</a>
+											  <a class="dropdown-item appointment-type" name="iconselect2" value="Follow Up" id="423" href="">Follow Up</a>
+											  <a class="dropdown-item appointment-type" value="Review" href="">Review</a>
+											</div>
+										  </div>
+									</div>
+							<div class="form-group title formBoxes">
 								<label>Patient Name</label>
-								<input class="form-control"  id="title" name="title" maxlength="40" type="text" placeholder="Patient Name" autocomplete="nope">
+								<input class="form-control paitentDetails"  id="title" name="title" maxlength="40" type="text" placeholder="Patient Name" autocomplete="nope">
 							</div>
-							<div class="form-group">
-								<label>Appointment Type</label>
-								<div class="btn-group btn-group-sm btn-group-justified" data-toggle="buttons">
-									<label class="btn btn-default">
-										<input type="radio" name="iconselect" id="icon-1" value="New Patient" checked>
-										New Patient
-										</label>
-									<label class="btn btn-default">
-										<input type="radio" name="iconselect" id="icon-2" value="Follow up">
-										Follow Up
-									</label>
-								</div>
-							</div>
-								<div class="form-group">
+							
+								<div class="form-group phoneNumber formBoxes">
 								<label>Phone number</label>
-								<input class="form-control"  id="phoneNumber" name="phoneNumber" maxlength="40" type="text"	>
+								<input class="form-control paitentDetails"  id="phoneNumber" name="phoneNumber" maxlength="40" type="text"	>
 							</div>
-							<div class="form-group">
+							<div class="form-group email formBoxes">
 								<label>Email</label>
-								<input class="form-control"  id="email" name="email" maxlength="40" type="text"	>
+								<input class="form-control paitentDetails"  id="email" name="email" maxlength="40" type="text"	>
 							</div>
-							<div class="form-group">
+							<div class="form-group notes formBoxes">
 								<label>Notes</label>
-								<textarea class="form-control" placeholder="Notes" rows="3" maxlength="200" id="notes"></textarea>
+								<textarea class="form-control " placeholder="Notes" rows="3" maxlength="200" id="notes"></textarea>
 							</div>
 							
-							<div class="form-group">
-								<label>start</label>
-								<input class="form-control"  id="start" name="start" maxlength="40" type="text" placeholder="start date">
-							</div>
-							
-							<div class="form-group">
-								<label>end</label>
-
-								<input class="form-control"  id="end" name="end" maxlength="40" type="text" placeholder="end date">
-							</div>
-
+							<div class="form-group times formBoxes div-inline btn-group" id="timeHours">
 						
-
+							</div>
+							
 						</fieldset>
-						<div class="form-actions">
-							<!--<div class="row">
-								<div class="col-md-12">
-									<button class="btn btn-default" type="button" id="add-event" >
-										Add Event
-									</button>
-								</div>
-							</div>-->
-						</div>
 					</form>
-
 					<!-- end content -->
 				</div>
+				<div class="modal-footer">
+						<button class="btn btn-primary mb-2 deleteAppointment" id="updateAppointment" data-dismiss="modal">Update</button>
+						<button class="btn btn-primary mb-2 deleteAppointment" id="deleteAppointment" data-dismiss="modal">Delete Appointment</button>
+						<button class="btn btn-primary mb-2 formBoxes" id="addEvent">Add Event</button>
+						<button class="btn btn-primary mb-2 cancelButton" id="cancelButton" data-dismiss="modal">Cancel</button>
 
-			</div>
+						</div>
+				</div>
+				</div>
+				</div>
+				
 			<!-- end widget div -->
 		</div>
 		
@@ -136,73 +129,6 @@ margin: 0;
 			
 
 			<!-- widget div-->
-			<div>
-
-				<div class="widget-body">
-					<!-- content goes here -->
-
-					<form id="add-event-form" class="appointmentForm">
-						<fieldset>
-							<div class="form-group">
-								<label>Patient Name</label>
-								<p>
-								<label id="appointmentTitle"><b></b></label>
-							</div>
-							<div class="form-group">
-								<label>Appointment Type</label>
-								<div class="btn-group btn-group-sm btn-group-justified" data-toggle="buttons">
-									<label class="btn btn-default">
-										<input type="radio" name="appointmentIconselect" id="appointmentIcon-1" value="New Patient">
-										New Patient
-										</label>
-									<label class="btn btn-default">
-										<input type="radio" name="appointmentIconselect" id="appointmentIcon-2" value="Follow up">
-										Follow Up
-									</label>
-								</div>
-							</div>
-								<div class="form-group">
-								<label>Phone number</label>
-								<input class="form-control"  id="appointmentPhoneNumber" name="appointmentPhoneNumber" maxlength="40" type="text"	>
-							</div>
-							<div class="form-group">
-								<label>Email</label>
-								<input class="form-control"  id="appointmentEmail" name="email" maxlength="40" type="text"	>
-							</div>
-							<div class="form-group">
-								<label>Notes</label>
-								<textarea class="form-control" placeholder="Notes" rows="3" maxlength="200" id="appointmentNotes"></textarea>
-							</div>
-							
-							<div class="form-group">
-								<label>start</label>
-								<input class="form-control"  id="appointmentStart" name="appointmentStart" maxlength="40" type="text" placeholder="start date">
-							</div>
-							
-							<div class="form-group">
-								<label>end</label>
-
-								<input class="form-control"  id="appointmentEnd" name="appointmentEnd" maxlength="40" type="text" placeholder="end date">
-							</div>
-
-
-
-						</fieldset>
-						<div class="form-actions">
-							<!--<div class="row">
-								<div class="col-md-12">
-									<button class="btn btn-default" type="button" id="add-event" >
-										Add Event
-									</button>
-								</div>
-							</div>-->
-						</div>
-					</form>
-
-					<!-- end content -->
-				</div>
-
-			</div>
 			<!-- end widget div -->
 		</div>
 		
@@ -344,9 +270,7 @@ margin: 0;
 
 	// pagefunction
 
-	
-	
-	
+	var r;
 	function hideEvents()
     		{
     		
@@ -378,12 +302,6 @@ margin: 0;
 	 
 	
 	    var addEvent = function (patientName, appointmentColour, appointmentType, appointmentType  , start , end) {
-	        // title = title.length === 0 ? "Untitled Event" : title;
-	        // description = description;
-	        // icon = icon;
-	        // priority = priority.length === 0 ? "label label-default" : priority;
-			// start = start.length === 0 ? " " : start;
-			// end = end.length === 0 ? " " : end;
 	        // var html = $('<li><span class="' + priority + '" data-description="' + description + '" data-icon="' + icon + '" data-start="' + start + '" data-end="' + end +'">' + title + '</span></li>').prependTo('ul#external-events').hide().fadeIn();
 			var html = $('<li><span class="bg-color-darken txt-color-white" data-description="app" data-icon="dd" data-start="' + start + '" data-end="' + end +'">hello</span></li>').prependTo('ul#external-events').hide().fadeIn();
 	
@@ -418,7 +336,6 @@ margin: 0;
         					//console.log(result);
     						}
 						});
-	     	 appointmentDialog.dialog( "close" );
 	     
 	     }
 	     
@@ -431,14 +348,16 @@ margin: 0;
 
 	     function updateAppointment ()
 	     {
-			var patientName = $('#appointmentTitle').text(),
-	            appointmentType = $('input:radio[name=appointmentIconselect]:checked').val(),
-	            start = $('#appointmentStart').val(),
-	            end = $('#appointmentEnd').val(),
+			var patientName = $('#title').val(),
+				appointmentType = $("#appointmentMenuButton").text(),
+				startTime = $("#startHoursSelectorButton").text()  + ':' + $("#startMinutesSelectorButton").text() + ':00',
+				endTime = $("#endHoursSelectorButton").text()  + ':' + $("#endMinutesSelectorButton").text() + ':00',
+				start= document.getElementById("startHoursSelectorButton").getAttribute("data-date") + "T" + startTime,
+				end= document.getElementById("endHoursSelectorButton").getAttribute("data-date") + "T" + endTime,
 	            allDay = false,
-	            phoneNumber = $("#appointmentPhoneNumber").val(),
-	            email = $("#appointmentEmail").val(),
-	            notes = $("#appointmentNotes").val();
+	            phoneNumber = $("#phoneNumber").val(),
+	            email = $("#email").val(),
+	            notes = $("#notes").val();
 
 				if(appointmentType == "New Patient")
 				{
@@ -448,8 +367,8 @@ margin: 0;
 				{
 					var appointmentColour = "bg-color-blue txt-color-white";
 					
-				}     
-	    var event;
+				}
+			var event;
 	     
 			             update_appointment = {
 									"title": patientName,
@@ -483,7 +402,6 @@ margin: 0;
     						}
 						});
 						
-						appointmentDialog.dialog( "close" );
 						
 	     
 	     
@@ -496,9 +414,11 @@ margin: 0;
 
 	    function addAppointment () {
 	        var patientName = $('#title').val(),
-	            appointmentType = $('input:radio[name=iconselect]:checked').val(),
-	            start = $('#start').val(),
-	            end = $('#end').val(),
+				appointmentType = $("#appointmentMenuButton").text(),
+				startTime = $("#startHoursSelectorButton").text()  + ':' + $("#startMinutesSelectorButton").text() + ':00',
+				endTime = $("#endHoursSelectorButton").text()  + ':' + $("#endMinutesSelectorButton").text() + ':00',
+				start= document.getElementById("startHoursSelectorButton").getAttribute("data-date") + "T" + startTime,
+				end= document.getElementById("endHoursSelectorButton").getAttribute("data-date") + "T" + endTime,
 	            allDay = false,
 	            phoneNumber = $("#phoneNumber").val(),
 	            email = $("#email").val(),
@@ -552,10 +472,11 @@ margin: 0;
     						contentType: 'application/json',
     						success: function(result) {
 							new_appointement['id'] = result['id']
+							$('#appointmentModal').modal('hide');
+                			$('.modal-backdrop').hide();
 							$('#calendar').fullCalendar('renderEvent', new_appointement, true);
     						}
 						});
-				dialog.dialog( "close" );
 		   }
 	        
 	        
@@ -563,71 +484,117 @@ margin: 0;
 	    
 	    
 	    /* ------------------------ Add Appointment End ------------------------ */
-	    	
-	    	
-	    	dialog = $( "#newEvent" ).dialog({
-      		autoOpen: false,
-      		height: 700,
-      		width: 350,
-      		modal: true,
-      		cache: false,
-      		
-      		//dialogClass: "ui-dialog-titlebar ui-widget-header",
-      		
-			buttons: {
-        		"Add Event": addAppointment,
-        		Cancel: function() {
-          		dialog.dialog( "close" );
-          	
-        		}
-        		}
-    		});
+		
+		function clearForm()
+		{
+			$('#title').val("");
+			$("#phoneNumber").val("");
+	        $("#email").val("");
+	        $("#notes").val("");
+		}
+
+
+		function changePatientDetails()
+		{
+			
+		}
+
+		function showAppoinmentBoxes(appointmentType)
+		{
+			if(appointmentType == "Follow Up" || appointmentType == "Review")
+			{
+				$('.title').show();
+				$('.times').show();
+				$('#addEvent').show();
+				$(".phoneNumber").hide();
+	           	$(".email").hide();
+				$(".notes").hide();
+				
+				
+
+
+			}
+			else {
+				$('.title').show();
+				$('.times').show();
+				$(".phoneNumber").show();
+	           	$(".email").show();
+				$(".notes").show();
+				$('#addEvent').show();
+
+			}
+		}
+			
+	    var addEventButton = document.getElementById("addEvent")
+		addEventButton.addEventListener('click', function() {
+			addAppointment();
+		});
+
+		var addEventButton = document.getElementById("updateAppointment")
+		addEventButton.addEventListener('click', function() {
+			updateAppointment();
+		});
+		
+		var typeOfAppointment = document.getElementsByClassName("appointment-type")
+		$(".appointment-type").on('click', function(event) {
+			event.preventDefault();
+			$("#appointmentMenuButton").text(this.text);
+			var appointmentType = this.text;
+			clearForm();
+			showAppoinmentBoxes(appointmentType);
+		});
  	
- 	$( "#addEvent" ).button().on( "click", function() {
-      dialog.dialog( "open" );
-    });
-    
-   	
-	    	appointmentDialog = $( "#appointment" ).dialog({
-      		autoOpen: false,
-      		height: 700,
-      		width: 350,
-      		modal: true,
-      		cache: false,
-      		
-      		
-			buttons: {
-        		"update Event": updateAppointment,
-        		"Delete Event": deleteEvent,
-        		Cancel: function() {
-          		appointmentDialog.dialog( "close" );
-          	
-        		}
-        		}
-    		});
-    		
-    		
+ 	$( ".cancelButton" ).button().on( "click", function() {
+		$("#appointmentMenuButton").text("Appointment Type");
+	});
+	
+
+    var DeleteEventButton = document.getElementById("deleteAppointment")
+	DeleteEventButton.addEventListener('click', function() {
+		deleteEvent();
+		});
+
+
+$(document).on('click', ".timeSelector", function() {
+
+	event.preventDefault();
+	buttonId = "#" + $(this).closest("div").find("button").attr("id")
+	$(buttonId).text(this.text);
+});
+			
+
+
  	 $(function nameSerach() {
     $("#title").autocomplete({
         source:function(request, response) {
             $.getJSON("{{url_for('autocomplete')}}",{
                 q: request.term, // in flask, "q" will be the argument to look for using request.args
             }, function(data) {
+				
                 response(data.matching_results);
                // matching_results from jsonify
             });
         },
-        minLength: 1,
+        minLength: 2,
         select: function(event, ui) {
-        	
+			
+			if (ui.item.value == "No Results")
+			{
+				ui.item.value = "";
+			}
+			else{
             $.post("{{url_for('getPatient')}}",{"data" : ui.item.value}, function(results, status){
         		
         		$('#notes').val(results[0].notes)
         		$('#email').val(results[0].email)
-        		$('#phoneNumber').val(results[0].phoneNumber)
-   			 });
-        }
-    });
+				$('#phoneNumber').val(results[0].phoneNumber)
+				$(".formBoxes").show();
+			});
+		
+			}
+	}
+	});
+	
 })
 	
 
@@ -664,15 +631,15 @@ margin: 0;
 			
 			        select: function (start, end, allDay) {
 			        
-			        	//RESET FORM when selected 
-			        	$('#title').val("");
-	           			$("#phoneNumber").val("");
-	           			$("#email").val("");
-	           			$("#notes").val("");
-			        	$('#start').val(start.format("YYYY-MM-DD HH:mm")),
-			        	//end is start plus 45
-	            		$('#end').val( moment(start.format()).add('45' , 'm').format("YYYY-MM-DD HH:mm"));
-			        	dialog.dialog( "open" );
+						//RESET FORM when selected 
+						$(".formBoxes").hide();
+						$(".appointmentType").show();
+						startDatetime  = new Date(start.format());
+						endDatetime  = new Date(end.format());
+						$("#timeHours").html(timeSelector(startDatetime, endDatetime));
+						$("#appointmentModal").modal('show')
+						$("#deleteAppointment").hide();
+						$("#updateAppointment").hide();
 			            $('#calendar').fullCalendar('unselect');
 			        	
 			        },
@@ -726,17 +693,22 @@ margin: 0;
 			            }
 						//Set values on opening appointment dialog box
 			            element.bind('dblclick', function() {
-							$('#appointmentTitle').text(event.title).wrapInner("<b />");
-	           				$('input[name="appointmentIconselect"][value="'+event.appointment_type+'"]').click();
-	           				$('#appointmentStart').val(event.start.format());
-	            			$('#appointmentEnd').val(event.end.format());
-	           				$("#appointmentPhoneNumber").val(event.phoneNumber);
-	           				$("#appointmentEmail").val(event.email);
-	           				$("#appointmentNotes").val(event.notes);
-	           				
+							$('#title').text(event.title).wrapInner("<b />");
+							$("#appointmentMenuButton").text(event.appointment_type);
+							var startDatetime = new Date(event.start.format());
+							var endDatetime = new Date(event.end.format());
+							$("#timeHours").html(timeSelector(startDatetime, endDatetime));
+	           				$("#phoneNumber").val(event.phoneNumber).show();
+	           				$("#email").val(event.email).show();
+							$("#notes").val(event.notes).show();
+							$("#deleteAppointment").show();
+							$("#updateAppointment").show();
+							$(".formBoxes").show();
+							$("#addEvent").hide();
 							aEvent = event;
-							
-         					appointmentDialog.dialog( "open" );
+							$("#appointmentModal").modal('show');
+
+
          					$('#calendar').fullCalendar('unselect');
       					});	
       		

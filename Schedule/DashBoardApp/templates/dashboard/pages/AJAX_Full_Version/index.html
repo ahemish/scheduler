@@ -12,6 +12,7 @@
 		<!-- Basic Styles -->
 		<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static',filename='css/bootstrap.min.css')}}">
 		<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static',filename='css/font-awesome.min.css')}}">
+		<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static',filename='css/your_style.css')}}">
 
 		<!-- SmartAdmin Styles : Caution! DO NOT change the order -->
 		<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static',filename='css/smartadmin-production-plugins.min.css')}}">
@@ -56,7 +57,15 @@
 		<link rel="apple-touch-startup-image" href="{{ url_for('static',filename='img/splash/ipad-landscape.png')}}" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
 		<link rel="apple-touch-startup-image" href="{{ url_for('static',filename='img/splash/ipad-portrait.png')}}" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
 		<link rel="apple-touch-startup-image" href="{{ url_for('static',filename='img/splash/iphone.png')}}" media="screen and (max-device-width: 320px)">
-
+		
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		
 		<!-- Use to overwirte to go straight to dashboard page -->
 		<script type="text/javascript">
 		/*
@@ -517,6 +526,8 @@ z-index: 1051;
 				document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
 			}
 		</script>
+		<!-- IMPORTANT: Calendar finctions  -->
+		<script src="{{ url_for('static',filename='js/calendar.app.js')}}"></script>
 
 		<!-- IMPORTANT: APP CONFIG -->
 		<script src="{{ url_for('static',filename='js/app.config.js')}}"></script>
@@ -590,42 +601,6 @@ z-index: 1051;
 		
 		</script>
 -->
-
-	<script>
-	
-	
-      
-  
-   
-	 $(function nameSerach() {
-    $("#search-fld").autocomplete({
-        source:function(request, response) {
-            $.getJSON("{{url_for('autocomplete')}}",{
-                q: request.term, // in flask, "q" will be the argument to look for using request.args
-            }, function(data) {
-                response(data.matching_results);
-				console.log(data.matching_results);
-            });
-        },
-        minLength: 1,
-        
-        select: function(event, ui) {
-        	
-            $.post("{{url_for('getPatient')}}",{"data" : ui.item.value}, function(results, status){
-        	
-				
-   			 });
-            
-        }
-        
-        
-        
-    })
-});
-	
-	
-	
-	</script>
 
 	</body>
 
