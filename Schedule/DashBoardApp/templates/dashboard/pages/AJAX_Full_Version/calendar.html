@@ -88,6 +88,9 @@ margin: 0;
 								<label>Patient Name</label>
 								<input class="form-control paitentDetails"  id="title" name="title" maxlength="40" type="text" placeholder="Patient Name" autocomplete="nope">
 							</div>
+							<div class="form-group" id="patientName">
+								
+							</div>
 							
 								<div class="form-group phoneNumber formBoxes">
 								<label>Phone number</label>
@@ -271,6 +274,8 @@ margin: 0;
 	// pagefunction
 
 	var r;
+	var startDatetime;
+	var endDatetime;
 	function hideEvents()
     		{
     		
@@ -369,14 +374,18 @@ margin: 0;
 					
 				}
 			var event;
-	     
+			if (patientName) {
 			             update_appointment = {
 									"title": patientName,
 			                        "start": start,
 			                        "end": end,
 			                        "allDay": allDay,
 			                        "className": appointmentColour,
-									"appointment_type" : appointmentType              
+									"appointmentType" : appointmentType ,
+									"canceled" : false ,
+									"phoneNumber": phoneNumber,
+									"notes" : notes,
+									"email" : email    
 			                    };
 			
 				$.ajax({
@@ -392,7 +401,7 @@ margin: 0;
 			                        "end": end,
 			                        "allDay": allDay,
 			                        "appointmentColour": appointmentColour,
-									"appointmentType" : appointmentType,
+									"appointmentType" : aEvent.appointmentType,
 			                        "canceled" : false
 			                    }),
     						contentType: 'application/json',
@@ -403,7 +412,7 @@ margin: 0;
 						});
 						
 						
-	     
+					}
 	     
 	
 	    }
@@ -443,10 +452,12 @@ margin: 0;
 			                        "end": end,
 			                        "allDay": allDay,
 			                        "className": appointmentColour,
-									"appointment_type" : appointmentType,
+									"appointmentType" : appointmentType,
 									"phoneNumber": phoneNumber,
 									"notes" : notes,
-									"email" : email,             
+									"email" : email,
+									"canceled" : false
+
 			                    };
 								
 			                    
@@ -503,7 +514,9 @@ margin: 0;
 		{
 			if(appointmentType == "Follow Up" || appointmentType == "Review")
 			{
+				$("#timeHours").html(timeSelector(startDatetime, moment(startDatetime).add(30, 'm').toDate()));
 				$('.title').show();
+				$('#title').show();
 				$('.times').show();
 				$('#addEvent').show();
 				$(".phoneNumber").hide();
@@ -511,11 +524,14 @@ margin: 0;
 				$(".notes").hide();
 				
 				
+				
 
 
 			}
 			else {
+				$("#timeHours").html(timeSelector(startDatetime, moment(startDatetime).add(60, 'm').toDate()));
 				$('.title').show();
+				$('#title').show();
 				$('.times').show();
 				$(".phoneNumber").show();
 	           	$(".email").show();
@@ -604,6 +620,7 @@ $(document).on('click', ".timeSelector", function() {
 			        editable: true,
 			        droppable: true, // this allows things to be dropped onto the calendar !!!
 					eventLimit: true,
+					eventOverlap : false,
 					slotDuration: '00:15:00',
 					selectable:true,
 					defaultView : 'agendaWeek',
@@ -625,7 +642,6 @@ $(document).on('click', ".timeSelector", function() {
 			            copiedEventObject.allDay = allDay;
 			
 			            // render the event on the calendar
-			            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 			            $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 					},
 			
@@ -633,38 +649,67 @@ $(document).on('click', ".timeSelector", function() {
 			        
 						//RESET FORM when selected 
 						$(".formBoxes").hide();
+						$("#patientName").hide();
 						$(".appointmentType").show();
 						startDatetime  = new Date(start.format());
-						endDatetime  = new Date(end.format());
-						$("#timeHours").html(timeSelector(startDatetime, endDatetime));
+						//end is start as 30 or 1 hour added on appointment type
+						endDatetime  = new Date(start.format());
+						// endDatetime  = new Date(end.format());
 						$("#appointmentModal").modal('show')
 						$("#deleteAppointment").hide();
 						$("#updateAppointment").hide();
 			            $('#calendar').fullCalendar('unselect');
 			        	
 			        },
+
+					eventResize : function( event, jsEvent, ui, view ) { 
+					// $("#timeHours").html(timeSelector(new Date(event.start.format()), new Date(event.end.format())));
+					// aEvent = event;
+					// updateAppointment();
+					console.log(event.start.format())
+					$.ajax({
+    						type : "POST",
+    						url : "{{ url_for('updateAppointment') }}",
+    						data: JSON.stringify({
+    												"id": event.id,
+    												"patientName": event.title,
+    												"appointmentType":event.appointmentType,
+    												"start": event.start,
+    												"end": event.end,
+    												"allDay" : event.allDay,
+    												"appointmentColour": event.className.join(" "),
+    												"phoneNumber" : event.phoneNumber,
+    												"email" : event.email,
+													"notes" : event.notes,
+													"canceled" : event.canceled	
+    											}),
+    						contentType: 'application/json;charset=UTF-8',
+    						success: function(result) {
+        					//console.log(result);
+    						}
+						});
+					},
 			        
 			    
 			     
 			        
 			        
 			        eventDrop: function(event, delta, revertFunc) {
-					
-					
-    				$.ajax({
+						$.ajax({
     						type : "POST",
     						url : "{{ url_for('updateAppointment') }}",
     						data: JSON.stringify({
     												"id": event.id,
-    												"title": event.title,
-    												"description":event.description,
+    												"patientName": event.title,
+    												"appointmentType":event.appointmentType,
     												"start": event.start,
     												"end": event.end,
     												"allDay" : event.allDay,
-    												"className": event.className.join(" "),
+    												"appointmentColour": event.className.join(" "),
     												"phoneNumber" : event.phoneNumber,
     												"email" : event.email,
-    												"notes" : event.notes
+													"notes" : event.notes,
+													"canceled" : event.canceled	
     											}),
     						contentType: 'application/json;charset=UTF-8',
     						success: function(result) {
@@ -682,19 +727,21 @@ $(document).on('click', ".timeSelector", function() {
 			         {{event|tojson|safe}},
 					
 			        eventRender: function (event, element, icon) {
-			            if (!event.appointment_type == "") {
+			            if (!event.appointmentType == "") {
 							
-			                element.find('.fc-title').append("<br/><span class='ultra-light'>" + event.appointment_type +
+			                element.find('.fc-title').append("<br/><span class='ultra-light'>" + event.appointmentType +
 			                    "</span>");
 			            }
-			            if (!event.appointment_type == "") {
-			                element.find('.fc-title').append("<i class='air air-top-right fa " + event.appointment_type +
+			            if (!event.appointmentType == "") {
+			                element.find('.fc-title').append("<i class='air air-top-right fa " + event.appointmentType +
 			                    " '></i>");
 			            }
 						//Set values on opening appointment dialog box
 			            element.bind('dblclick', function() {
-							$('#title').text(event.title).wrapInner("<b />");
-							$("#appointmentMenuButton").text(event.appointment_type);
+							r = event;
+							$("#title").hide()
+							$("#patientName").html("<p><label>"+event.title+"</label>").show();
+							$("#appointmentMenuButton").text(event.appointmentType);
 							var startDatetime = new Date(event.start.format());
 							var endDatetime = new Date(event.end.format());
 							$("#timeHours").html(timeSelector(startDatetime, endDatetime));

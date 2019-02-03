@@ -6,11 +6,11 @@ class Appointment(db.Model ,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     start = db.Column(db.String(255))
     end = db.Column(db.String(255))
-    all_day = db.Column(db.String(255))
+    all_day = db.Column(db.Boolean(255))
     appointment_colour = db.Column(db.String(255),nullable=False)
     patient_id = db.Column(db.String(255))
     appointment_type = db.Column(db.String(255))
-    canceled = db.Column(db.String(255))
+    canceled = db.Column(db.Boolean(255))
 
 class Employee(db.Model ,UserMixin):
     __tablename__ = 'employee'
