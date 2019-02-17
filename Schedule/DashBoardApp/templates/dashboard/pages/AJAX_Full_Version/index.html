@@ -67,17 +67,17 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		
 		<!-- Use to overwirte to go straight to dashboard page -->
-		<script type="text/javascript">
+		<script>
 		/*
 		if(!window.location.href.match('/#/overview'))
 		{
 			 
-			window.location.href = "/#/dashboard";
+			
 		}
 		
 							
- 	*/
-
+	 */
+	//  window.location.href = "/#/calendar";
 		</script>
 		
 		<style>
@@ -187,8 +187,15 @@ z-index: 1051;
 					<div class="ajax-notifications custom-scroll">
 
 						<div class="alert alert-transparent">
-							<h4>Click a button to show messages here</h4>
-							This blank page message helps protect your privacy, or you can show the first message here automatically.
+								<form id="form-add-todo" class="form-add-todo">
+    
+										<input type="text" id="new-todo-item" class="new-todo-item" name="todo" />
+										<input type="submit" id="add-todo-item" class="add-todo-item" value="add the todo" />
+									  </form>
+									  <form id="form-todo-list">
+										<ul id="todo-list" class="todo-list">
+										</ul>
+									  </form>
 						</div>
 
 						<i class="fa fa-lock fa-4x fa-border"></i>
@@ -197,10 +204,10 @@ z-index: 1051;
 					<!-- end notification content -->
 
 					<!-- footer: refresh area -->
-					<span> Last updated on: 12/12/2013 9:43AM
+					<!-- <span> Last updated on: 12/12/2013 9:43AM
 						<button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right">
 							<i class="fa fa-refresh"></i>
-						</button> </span>
+						</button> </span> -->
 					<!-- end footer -->
 
 				</div>
@@ -270,7 +277,7 @@ z-index: 1051;
 							</li>
 							<li class="divider"></li>
 							<li>
-								<a href="{{url_for('login')}}" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
+								<a href="{{url_for('logout')}}" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
 							</li>
 						</ul>
 					</li>
@@ -278,7 +285,7 @@ z-index: 1051;
 
 				<!-- logout button -->
 				<div id="logout" class="btn-header transparent pull-right">
-					<span> <a href="{{url_for('login')}}" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+					<span> <a href="{{url_for('logout')}}" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
 				</div>
 				<!-- end logout button -->
 
@@ -324,9 +331,11 @@ z-index: 1051;
 				<span> <!-- User image size is adjusted inside CSS, it should stay as is --> 
 					
 					<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
-						<img src="{{url_for('static' , filename = 'img/avatars/s.png')}}" alt="me" class="online" /> 
+						<img src="{{url_for('static' , filename = 'img/avatars/male.png')}}" alt="me" class="online" /> 
 						<span>
-							User.Name 
+							
+							{{ session['fullName'] }}
+						
 						</span>
 						<i class="fa fa-angle-down"></i>
 					</a> 
@@ -352,12 +361,7 @@ z-index: 1051;
 					<li class="">
 						<a href="#" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
 						<ul>
-							<li class="">
-								<a href="{{url_for('dashboard')}}" title="Dashboard"><span class="menu-item-parent">Analytics Dashboard</span></a>
-							</li>
-							<li class="">
-								<a href="{{url_for('overview')}}" title="Overview"><span class="menu-item-parent">Overview</span></a>
-							</li>
+							
 							<li class="">
 								<a href="{{url_for('calendar')}}" title="Calendar"><span class="menu-item-parent">Calendar</span></a>
 							</li>
@@ -428,47 +432,7 @@ z-index: 1051;
 				</div>
 
 				<div class="col-xs-6 col-sm-6 text-right hidden-xs">
-					<div class="txt-color-white inline-block">
-						<i class="txt-color-blueLight hidden-mobile">Last account activity <i class="fa fa-clock-o"></i> <strong>52 mins ago &nbsp;</strong> </i>
-						<div class="btn-group dropup">
-							<button class="btn btn-xs dropdown-toggle bg-color-blue txt-color-white" data-toggle="dropdown">
-								<i class="fa fa-link"></i> <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu pull-right text-left">
-								<li>
-									<div class="padding-5">
-										<p class="txt-color-darken font-sm no-margin">Download Progress</p>
-										<div class="progress progress-micro no-margin">
-											<div class="progress-bar progress-bar-success" style="width: 50%;"></div>
-										</div>
-									</div>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<div class="padding-5">
-										<p class="txt-color-darken font-sm no-margin">Server Load</p>
-										<div class="progress progress-micro no-margin">
-											<div class="progress-bar progress-bar-success" style="width: 20%;"></div>
-										</div>
-									</div>
-								</li>
-								<li class="divider"></li>
-								<li >
-									<div class="padding-5">
-										<p class="txt-color-darken font-sm no-margin">Memory Load <span class="text-danger">*critical*</span></p>
-										<div class="progress progress-micro no-margin">
-											<div class="progress-bar progress-bar-danger" style="width: 70%;"></div>
-										</div>
-									</div>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<div class="padding-5">
-										<button class="btn btn-block btn-default">refresh</button>
-									</div>
-								</li>
-							</ul>
-						</div>
+					
 						<!-- end btn-group-->
 					</div>
 					<!-- end div-->

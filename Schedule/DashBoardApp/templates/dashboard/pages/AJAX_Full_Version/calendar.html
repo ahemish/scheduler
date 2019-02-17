@@ -29,7 +29,7 @@ margin: 0;
 			</span>
 		</h1>
 	</div>
-	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+	<!-- <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
 		<ul id="sparks" class="">
 			<li class="sparks-info">
 				
@@ -44,8 +44,9 @@ margin: 0;
 				</div>
 			</li>
 		</ul>
-	</div>
+	</div> -->
 </div>
+
 <!-- row -->
 
 <div class="row">
@@ -71,11 +72,13 @@ margin: 0;
 
 					<form id="add-event-form" class="appointmentForm ">
 						<fieldset>
-								<div class="form-group appointmentType">
+							<!-- <div class="row"> -->
+								<div class="form-group appointmentType col-sm-3 inline">
 										<label>Appointment Type</label>
+										<p></p>
 										<div class="dropdown">
 											<button class="btn btn-secondary dropdown-toggle" type="button" id="appointmentMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											  Appointment Type
+											  Select Type
 											</button>
 											<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 											  <a class="dropdown-item appointment-type" name="iconselect" value="New Patient" id="12" href="#">New Patient</a>
@@ -83,31 +86,69 @@ margin: 0;
 											  <a class="dropdown-item appointment-type" value="Review" href="">Review</a>
 											</div>
 										  </div>
+										  
 									</div>
-							<div class="form-group title formBoxes">
+									<div class="form-group times inline formBoxes div-inline btn-group col-sm-7" id="timeHours">
+						
+										</div>
+							<!-- </div> -->
+							<div class="form-group title formBoxes col-sm-10">
 								<label>Patient Name</label>
 								<input class="form-control paitentDetails"  id="title" name="title" maxlength="40" type="text" placeholder="Patient Name" autocomplete="nope">
 							</div>
 							<div class="form-group" id="patientName">
 								
 							</div>
-							
-								<div class="form-group phoneNumber formBoxes">
+							<!-- Phone Number input-->
+								<div class="form-group phoneNumber formBoxes col-sm-5">
 								<label>Phone number</label>
-								<input class="form-control paitentDetails"  id="phoneNumber" name="phoneNumber" maxlength="40" type="text"	>
+								<input class="form-control paitentDetails"  id="phoneNumber" name="phoneNumber" maxlength="40" type="text" placeholder="Phone number"	>
 							</div>
-							<div class="form-group email formBoxes">
+							<!-- Email input-->
+							<div class="form-group email formBoxes col-sm-5">
 								<label>Email</label>
-								<input class="form-control paitentDetails"  id="email" name="email" maxlength="40" type="text"	>
+								<input class="form-control paitentDetails"  id="email" name="email" maxlength="40" type="email" placeholder="Enter email"	>
 							</div>
-							<div class="form-group notes formBoxes">
+							 <!-- Address-line input-->
+							 <div class="form-group formBoxes address col-sm-10">
+									<label class="control-label">Address Line</label>
+										<input  name="address-line1" id="addressLine" type="text" placeholder="address line"
+										class="form-control">
+								</div>
+								
+								<!-- city input-->
+								<div class="form-group formBoxes address col-sm-5">
+									<label class="control-label">City / Town</label>
+									<div class="controls">
+										<input id="city" name="city" type="text" id="city" placeholder="city" class="form-control">
+										<p class="help-block"></p>
+									</div>
+								</div>
+								<!-- county input-->
+								<div class="form-group formBoxes address col-sm-5">
+									<label class="control-label">County</label>
+									<div class="controls">
+										<input  name="region" id="county" type="text" placeholder="county"
+										class="form-control">
+										<p class="help-block"></p>
+									</div>
+								</div>
+								<!-- postal-code input-->
+								<div class="form-group formBoxes address col-sm-5">
+									<label class="control-label">Post Code</label>
+									<div class="controls">
+										<input  id="postCode" name="postal-code" type="text" placeholder="post code"
+										class="form-control">
+										<p class="help-block"></p>
+									</div>
+								</div>
+							<div class="form-group notes formBoxes col-sm-10">
 								<label>Notes</label>
 								<textarea class="form-control " placeholder="Notes" rows="3" maxlength="200" id="notes"></textarea>
 							</div>
 							
-							<div class="form-group times formBoxes div-inline btn-group" id="timeHours">
 						
-							</div>
+							
 							
 						</fieldset>
 					</form>
@@ -163,13 +204,15 @@ margin: 0;
 					<!-- add: non-hidden - to disable auto hide -->
 					<div class="btn-group">
 						<button class="btn dropdown-toggle btn-xs btn-default" data-toggle="dropdown">
-							Showing <i class="fa fa-caret-down"></i>
+							View 
+							<!-- <i class="fa fa-caret-down"></i> -->
 						</button>
-						<button id="addEvent" class="btn dropdown-toggle btn-xs btn-default">
+						<!-- <button id="addEvent" class="btn dropdown-toggle btn-xs btn-default">
 							Add Event <i class="fa fa-caret"></i>
-						</button>
+						</button> -->
 						<button id="hideEvent" onclick="hideEvents()" class="btn dropdown-toggle btn-xs btn-default">
-							<span class="glyphicon glyphicon-eye-open"><i class="fa fa-caret"></i>
+							<span class="glyphicon glyphicon-eye-open">
+								<!-- <i class="fa fa-caret"></i> -->
 						</button>
 						<ul class="dropdown-menu js-status-update pull-right">
 							<li>
@@ -362,7 +405,11 @@ margin: 0;
 	            allDay = false,
 	            phoneNumber = $("#phoneNumber").val(),
 	            email = $("#email").val(),
-	            notes = $("#notes").val();
+				notes = $("#notes").val();
+				addressLine = $("#addressLine").val();
+				city = $("#city").val();
+				county = $("#county").val();
+				postCode = $("#postCode").val();
 
 				if(appointmentType == "New Patient")
 				{
@@ -402,7 +449,11 @@ margin: 0;
 			                        "allDay": allDay,
 			                        "appointmentColour": appointmentColour,
 									"appointmentType" : aEvent.appointmentType,
-			                        "canceled" : false
+									"canceled" : false,
+									"addressLine" : addressLine,
+									"city" : city,
+									"county" : county,
+									"postCode" : postCode
 			                    }),
     						contentType: 'application/json',
     						success: function(result) {
@@ -431,7 +482,13 @@ margin: 0;
 	            allDay = false,
 	            phoneNumber = $("#phoneNumber").val(),
 	            email = $("#email").val(),
-	            notes = $("#notes").val();
+				notes = $("#notes").val();
+				addressLine = $("#addressLine").val();
+				city = $("#city").val();
+				county = $("#county").val();
+				postCode = $("#postCode").val();
+
+
 
 				if(appointmentType == "New Patient")
 				{
@@ -456,7 +513,11 @@ margin: 0;
 									"phoneNumber": phoneNumber,
 									"notes" : notes,
 									"email" : email,
-									"canceled" : false
+									"canceled" : false,
+									"addressLine" : addressLine,
+									"city" : city,
+									"county" : county,
+									"postCode" : postCode
 
 			                    };
 								
@@ -478,7 +539,11 @@ margin: 0;
 			                        "allDay": allDay,
 			                        "appointmentColour": appointmentColour,
 									"appointmentType" : appointmentType,
-			                        "canceled" : false
+									"canceled" : false,
+									"addressLine" : addressLine,
+									"city" : city,
+									"county" : county,
+									"postCode" : postCode
 			                    }),
     						contentType: 'application/json',
     						success: function(result) {
@@ -501,7 +566,11 @@ margin: 0;
 			$('#title').val("");
 			$("#phoneNumber").val("");
 	        $("#email").val("");
-	        $("#notes").val("");
+			$("#notes").val("");
+			$("#addressLine").val("");
+			$("#city").val("");
+			$("#county").val("");
+			$("#postCode").val("");
 		}
 
 
@@ -520,7 +589,8 @@ margin: 0;
 				$('.times').show();
 				$('#addEvent').show();
 				$(".phoneNumber").hide();
-	           	$(".email").hide();
+				$(".email").hide();
+				$(".address").hide();
 				$(".notes").hide();
 				
 				
@@ -534,9 +604,11 @@ margin: 0;
 				$('#title').show();
 				$('.times').show();
 				$(".phoneNumber").show();
-	           	$(".email").show();
+				$(".email").show();
+				$(".address").show();
 				$(".notes").show();
 				$('#addEvent').show();
+				
 
 			}
 		}
@@ -600,10 +672,14 @@ $(document).on('click', ".timeSelector", function() {
 			}
 			else{
             $.post("{{url_for('getPatient')}}",{"data" : ui.item.value}, function(results, status){
-        		
         		$('#notes').val(results[0].notes)
         		$('#email').val(results[0].email)
 				$('#phoneNumber').val(results[0].phoneNumber)
+				$('#addressLine').val(results[0].addressLine)
+				$('#city').val(results[0].city)
+				$('#county').val(results[0].county)
+				$('#postCode').val(results[0].postCode)
+				
 				$(".formBoxes").show();
 			});
 		
@@ -681,7 +757,11 @@ $(document).on('click', ".timeSelector", function() {
     												"phoneNumber" : event.phoneNumber,
     												"email" : event.email,
 													"notes" : event.notes,
-													"canceled" : event.canceled	
+													"canceled" : event.canceled,
+													"addressLine" : event.addressLine,
+													"city" : event.city,
+													"county" : event.county,
+													"postCode" : event.postCode
     											}),
     						contentType: 'application/json;charset=UTF-8',
     						success: function(result) {
@@ -709,7 +789,11 @@ $(document).on('click', ".timeSelector", function() {
     												"phoneNumber" : event.phoneNumber,
     												"email" : event.email,
 													"notes" : event.notes,
-													"canceled" : event.canceled	
+													"canceled" : event.canceled,
+													"addressLine" : event.addressLine,
+													"city" : event.city,
+													"county" : event.county,
+													"postCode" : event.postCode
     											}),
     						contentType: 'application/json;charset=UTF-8',
     						success: function(result) {
@@ -740,7 +824,7 @@ $(document).on('click', ".timeSelector", function() {
 			            element.bind('dblclick', function() {
 							r = event;
 							$("#title").hide()
-							$("#patientName").html("<p><label>"+event.title+"</label>").show();
+							$("#patientName").html("<label class='col-sm-10'>"+event.title+"</label>").show();
 							$("#appointmentMenuButton").text(event.appointmentType);
 							var startDatetime = new Date(event.start.format());
 							var endDatetime = new Date(event.end.format());
@@ -748,6 +832,10 @@ $(document).on('click', ".timeSelector", function() {
 	           				$("#phoneNumber").val(event.phoneNumber).show();
 	           				$("#email").val(event.email).show();
 							$("#notes").val(event.notes).show();
+							$("#addressLine").val(event.addressLine).show();
+							$("#city").val(event.city).show();
+							$("#county").val(event.county).show();
+							$("#postCode").val(event.postCode).show();
 							$("#deleteAppointment").show();
 							$("#updateAppointment").show();
 							$(".formBoxes").show();

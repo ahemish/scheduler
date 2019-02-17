@@ -1,7 +1,7 @@
 function timeSelector(startTime , endTime, startDate, endDate)
 {
 
-    selectors = '<label class="d-inline">Start </label>&nbsp;' + hourMinutes("start",startTime, startDate) + '&nbsp;&nbsp;&nbsp;<strong> - </strong>&nbsp;&nbsp;&nbsp;' +'<label class="d-inline">End </label>&nbsp;' + hourMinutes("end",endTime,endDate)
+    selectors = '<p><label class="col-sm-4">Start </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>End </label>' + hourMinutes("start",startTime, startDate) + '&nbsp;&nbsp;&nbsp;<strong> - </strong>&nbsp;&nbsp;&nbsp;' +'&nbsp;' + hourMinutes("end",endTime,endDate)
     return selectors;
     
 }

@@ -29,13 +29,16 @@ class Patient(db.Model ,UserMixin):
      email = db.Column(db.String(120), nullable=False)
      phone_number = db.Column(db.String(255))
      notes = db.Column(db.String(255))
+     address_line = db.Column(db.String(255))
+     city = db.Column(db.String(255))
+     county = db.Column(db.String(255))
+     post_code = db.Column(db.String(255))
 
-# class Event(db.Model):
-    
-#     __tablename__ = 'appointments'
-#     id = db.Column(db.String(100), primary_key=True)
-#     title = db.Column(db.String(80), unique=True, nullable=False)
-#     email = db.Column(db.String(120), unique=True, nullable=False)
-
-#     def __repr__(self):
-#         return '{} | {}  | {}'.format(self.id , self.title , self.email)
+class User(db.Model ,UserMixin):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(30), unique=True)
+    password = db.Column(db.String(200))
+    full_name = db.Column(db.String(30))
+    email_address = db.Column(db.String(200), unique=True)
+    created_at = db.Column(db.DateTime())

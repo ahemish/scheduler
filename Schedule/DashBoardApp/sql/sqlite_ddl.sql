@@ -27,5 +27,21 @@ CREATE TABLE IF NOT EXISTS patients (
   name VARCHAR(255),
   email VARCHAR(255),
   phone_number VARCHAR(255),
-  notes VARCHAR(255)
+  notes VARCHAR(255),
+  address_line VARCHAR(255),
+  city VARCHAR(255),
+  county VARCHAR(255),
+  post_code  VARCHAR(255)
+);
+
+
+CREATE TABLE users (
+     id integer PRIMARY KEY,
+    `username` varchar(255),
+    `password` varchar(255),
+    `full_name` varchar(255),
+    `email_address` varchar(255),
+	 created_at timestamp
+
+    
 );
