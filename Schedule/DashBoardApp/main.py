@@ -52,11 +52,13 @@ def getAppoinments():
         "title" : i[1].name,
         "email" : i[1].email,
         "phoneNumber" : i[1].phone_number,
+        "dob" : i[1].dob,
         "notes" : i[1].notes,
         "addressLine" : i[1].address_line,
         "city" : i[1].city,
         "county" : i[1].county,
-        "postCode" : i[1].post_code
+        "postCode" : i[1].post_code,
+        "howDidYouHearAboutUs" : i[1].how_did_you_hear_about_us
     } for i in db.session.query(Appointment,Patient).join(Patient, Appointment.patient_id == Patient.id).all()]
 
     return all_appointments
@@ -82,11 +84,13 @@ def getPatient():
         "title" : i.name,
         "email" : i.email,
         "phoneNumber" : i.phone_number,
+        "dob" : i.dob,
         "notes" : i.notes,
         "addressLine" : i.address_line,
         "city" : i.city,
         "county" : i.county,
-        "postCode" : i.post_code
+        "postCode" : i.post_code,
+        "howDidYouHearAboutUs" : i.how_did_you_hear_about_us
     } for i in Patient.query.filter_by(name=patient_name).all()]
     return jsonify(patient_appointment)
 
@@ -96,6 +100,7 @@ def addAppointment():
     data=json.loads(request.data)
     patient_name=data['patientName']
     patient_phone_number=data['phoneNumber']
+    patient_dob =data['dob']
     patient_notes=data['notes']
     start=data['start']
     end=data['end']
@@ -108,6 +113,7 @@ def addAppointment():
     city = data['city']
     county = data['county']
     post_code = data['postCode']
+    how_did_you_hear_about_us =data['howDidYouHearAboutUs']
     
     #Does Patient already exist add if not
     patient_id = db.session.query(Patient.id).filter_by(name=patient_name).scalar()
@@ -115,15 +121,17 @@ def addAppointment():
         new_patient = Patient(name=patient_name,
         email=patient_email,
         phone_number=patient_phone_number,
+        dob=patient_dob,
         notes=patient_notes,
         address_line=address_line,
         city=city,
         county=county,
-        post_code=post_code)
+        post_code=post_code,
+        how_did_you_hear_about_us=how_did_you_hear_about_us)
 
         db.session.add(new_patient)
         db.session.commit()
-        patient_id = new_patient.id #Patient.query.filter_by(name=patient_name).first().id
+        patient_id = new_patient.id
 
     new_appointment = Appointment(
         start =start ,
@@ -148,12 +156,14 @@ def updateAppointment():
     appointment_id = data['id']
     patient_name=data['patientName']
     patient_phone_number=data['phoneNumber']
+    patient_dob=data['dob']
     patient_notes=data['notes']
     start=data['start']
     end=data['end']
     all_day=data['allDay']
     appointment_colour=data['appointmentColour']
     patient_email=data['email']
+    how_did_you_hear_about_us=data["howDidYouHearAboutUs"]
     appointment_type=data['appointmentType']
     canceled=data['canceled']
 
@@ -169,7 +179,9 @@ def updateAppointment():
     patient.name = patient_name
     patient.email = patient_email
     patient.phone_number = patient_phone_number
+    patient.dob = patient_dob
     patient.notes = patient_notes
+    patient.how_did_you_hear_about_us = how_did_you_hear_about_us
     db.session.commit()
     return jsonify({'status' : 'Success' })
 

@@ -28,11 +28,13 @@ class Patient(db.Model ,UserMixin):
      name = db.Column(db.String(255),nullable=False)
      email = db.Column(db.String(120), nullable=False)
      phone_number = db.Column(db.String(255))
+     dob = db.Column(db.String(255), nullable=False)
      notes = db.Column(db.String(255))
      address_line = db.Column(db.String(255))
      city = db.Column(db.String(255))
      county = db.Column(db.String(255))
      post_code = db.Column(db.String(255))
+     how_did_you_hear_about_us  = db.Column(db.String(255))
 
 class User(db.Model ,UserMixin):
     __tablename__ = "users"
