@@ -63,6 +63,17 @@ def getAppoinments():
 
     return all_appointments
 
+def totalPatientsSeen():
+    date = datetime.datetime.now()
+    month = date.strftime('%m')
+    year = date.strftime('%Y')
+    patients_seen_month = db.engine.execute("select count(id) from appointments where strftime('%m', start) = '" + str(month) + "'")
+    patients_seen_year = db.engine.execute("select count(id) from appointments where strftime('%Y', start) = '" + str(year) + "'")
+    return {"month" : [i[0] for i in patients_seen_month][0],
+            "year"  : [i[0] for i in patients_seen_year][0]
+            }
+
+
 
 @app.route('/autocomplete', methods=['GET'])
 def autocomplete():
@@ -166,6 +177,10 @@ def updateAppointment():
     how_did_you_hear_about_us=data["howDidYouHearAboutUs"]
     appointment_type=data['appointmentType']
     canceled=data['canceled']
+    address_line = data['addressLine']
+    city = data['city']
+    county = data['county']
+    post_code = data['postCode']
 
     appointment = Appointment.query.filter_by(id=appointment_id).first()
     appointment.start = start
@@ -181,6 +196,10 @@ def updateAppointment():
     patient.phone_number = patient_phone_number
     patient.dob = patient_dob
     patient.notes = patient_notes
+    patient.address_line=address_line
+    patient.city=city
+    patient.county=county
+    patient.post_code=post_code
     patient.how_did_you_hear_about_us = how_did_you_hear_about_us
     db.session.commit()
     return jsonify({'status' : 'Success' })
@@ -245,8 +264,9 @@ def overview():
 @app.route('/calendar')
 @flask_login.login_required
 def calendar():
-	event= getAppoinments()
-	return render_template('dashboard/pages/AJAX_Full_Version/calendar.html' , event=event)
+    patients_seen = totalPatientsSeen()
+    event= getAppoinments()
+    return render_template('dashboard/pages/AJAX_Full_Version/calendar.html' , event=event, monthPatientsSeen=patients_seen['month'] ,yearPatientsSeen=patients_seen['year'])
 
 
 
@@ -254,18 +274,12 @@ def calendar():
 @app.route('/todolist')
 @flask_login.login_required
 def todolist():
-
-   
-	
 	return render_template('dashboard/pages/AJAX_Full_Version/todolist.html')
 
 
 @app.route('/patientappointment')
 @flask_login.login_required
 def patientappointment():
-
-   
-	
 	return render_template('dashboard/pages/AJAX_Full_Version/patientappointment.html')
 
 
