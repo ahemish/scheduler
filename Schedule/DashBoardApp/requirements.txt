@@ -2,3 +2,4 @@ Flask==0.12.1
 SQLAlchemy==1.1.5
 pandas==0.20.3
 Flask-SQLAlchemy==2.3.2
+Flask-Login==0.4.1
