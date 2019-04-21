@@ -6,3 +6,7 @@ WORKDIR /DashBoardApp
 RUN pip install -r requirements.txt
 ENTRYPOINT ["python"]
 CMD ["__init__.py"]
+
+FROM alpine:latest
+
+RUN apk add python3 && apk add py-pip && pip install -r requirements.txt
