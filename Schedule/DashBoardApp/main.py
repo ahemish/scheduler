@@ -36,7 +36,31 @@ def before_request():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=10)
 
+@app.route('/appoinments', methods=['GET'])
+def appoinments():
+    
+    all_appointments = [{
+        "id" : i[0].id,
+        "start" : i[0].start,
+        "end" : i[0].end,
+        "allDay" : i[0].all_day,
+        "className" : i[0].appointment_colour,
+        "patient_id" : i[0].patient_id,
+        "appointmentType" : i[0].appointment_type,
+        "canceled" : i[0].canceled,
+        "title" : i[1].name,
+        "email" : i[1].email,
+        "phoneNumber" : i[1].phone_number,
+        "dob" : i[1].dob,
+        "notes" : i[1].notes,
+        "addressLine" : i[1].address_line,
+        "city" : i[1].city,
+        "county" : i[1].county,
+        "postCode" : i[1].post_code,
+        "howDidYouHearAboutUs" : i[1].how_did_you_hear_about_us
+    } for i in db.session.query(Appointment,Patient).join(Patient, Appointment.patient_id == Patient.id).all()]
 
+    return jsonify(all_appointments)
 
 def getAppoinments():
     
