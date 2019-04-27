@@ -1,0 +1,1067 @@
+<style>
+
+
+ul.ui-autocomplete.ui-menu {
+  z-index: 1000;
+}
+
+
+input[autocomplete="off"]::-webkit-contacts-auto-fill-button,
+input[autocomplete="off"]::-webkit-credentials-auto-fill-button {
+visibility: hidden;
+display: none !important;
+pointer-events: none;
+height: 0;
+width: 0;
+margin: 0;
+}
+ 
+
+
+</style>
+
+
+<div class="row">
+	<div class="col-xs-4">
+		
+		<h1 class="page-title txt-color-blueDark"><i class="fa fa-calendar fa-fw "></i> 
+			Calendar
+			<span>>
+			Add events
+			</span>
+		</h1>
+	</div>
+	<div class="col-xs-7 text-right">
+		<h5 class=""> Total patients seen {{patientNumbers}} </h5>
+		<ul class="stats-list text-right">
+				<li>
+				  135 <span class="stats-list-label">Week</span>
+				</li>
+				<li class="stats-list-positive">
+				  {{ monthPatientsSeen }} <span class="stats-list-label">Month</span>
+				</li>
+				<li class="stats-list-negative">
+				  {{ yearPatientsSeen }} <span class="stats-list-label">Year</span>
+				</li>
+			  </ul>
+	</div>
+</div>
+
+<!-- row -->
+
+<div class="row">
+
+
+	<div >
+		<!-- new widget -->
+		<!-- Modal -->
+		<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog"data-backdrop='static' aria-labelledby="appointmentModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title" id="appointmentModalLabel">New Appointment</h5>
+							<button type="button" class="close cancelButton" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+						</div>
+					<div class="modal-body">
+			
+
+					<!-- widget div-->
+					<!-- content goes here -->
+
+					<form id="add-event-form" class="appointmentForm ">
+						<fieldset>
+							<!-- <div class="row"> -->
+								<div class="form-group appointmentType col-sm-3 inline">
+										<label>Appointment Type</label>
+										<p></p>
+										<div class="dropdown">
+											<button class="btn btn-secondary dropdown-toggle" type="button" id="appointmentMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											  Select Type
+											</button>
+											<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											  <a class="dropdown-item appointment-type" name="iconselect" value="New Patient" id="12" href="#">New Patient</a>
+											  <a class="dropdown-item appointment-type" name="iconselect2" value="Follow Up" id="423" href="">Follow Up</a>
+											  <a class="dropdown-item appointment-type" value="Review" href="">Review</a>
+											  <a class="dropdown-item appointment-type" value="Review" href="">Report Of Findings</a>
+											</div>
+										  </div>
+										  
+									</div>
+									<div class="form-group times inline formBoxes div-inline btn-group col-sm-7" id="timeHours">
+						
+										</div>
+							<!-- </div> -->
+							<div class="form-group title formBoxes col-sm-10">
+								<label>Patient Name</label>
+								<input class="form-control paitentDetails"  id="title" name="title" maxlength="40" type="text" placeholder="Patient Name" autocomplete="nope" required>
+							</div>
+							<div class="form-group" id="patientName">
+								
+							</div>
+							<!-- Phone Number input-->
+								<div class="form-group phoneNumber formBoxes col-sm-5">
+								<label>Phone number</label>
+								<input class="form-control paitentDetails"  id="phoneNumber" name="phoneNumber" maxlength="40" type="text" placeholder="Phone number" required="">
+							</div>
+							<!-- Email input-->
+							<div class="form-group email formBoxes col-sm-5">
+								<label>Email</label>
+								<input class="form-control paitentDetails"  id="email" name="email" maxlength="40" type="email" placeholder="Enter email"	>
+							</div>
+							<div class="row"></div>
+							
+							<div class="dob form-group formBoxes col-sm-5">
+									<label>Date Of Birth</label>
+									<input type="text" id="dob" class="form-control paitentDetails input-group" placeholder="dd/mm/yyyy">
+								  
+							</div>
+							 <!-- Address-line input-->
+							 <div class="form-group formBoxes address col-sm-10">
+									<label class="control-label">Address Line</label>
+										<input  name="address-line1" id="addressLine" type="text" placeholder="address line"
+										class="form-control">
+								</div>
+								
+								<!-- city input-->
+								<div class="form-group formBoxes address col-sm-5">
+									<label class="control-label">City / Town</label>
+									<div class="controls">
+										<input id="city" name="city" type="text" id="city" placeholder="city" class="form-control">
+										<p class="help-block"></p>
+									</div>
+								</div>
+								<!-- county input-->
+								<div class="form-group formBoxes address col-sm-5">
+									<label class="control-label">County</label>
+									<div class="controls">
+										<input  name= "region" id="county" type="text" placeholder="county"
+										class="form-control">
+										<p class="help-block"></p>
+									</div>
+								</div>
+								<!-- postal-code input-->
+								<div class="form-group formBoxes address col-sm-5">
+									<label class="control-label">Post Code</label>
+									<div class="controls">
+										<input  id="postCode" name="postal-code" type="text" placeholder="post code"
+										class="form-control">
+										<p class="help-block"></p>
+									</div>
+								</div>
+								<div class="row"></div>
+									<div class="formBoxes form-group col-sm-5" id="howDidYouHearAboutUs">
+										<label>How Did You Hear About Us</label>
+										
+									<div class="dropdown ">
+										<button class="btn btn-secondary dropdown-toggle" type="button" id="howDidYouHearAboutUsButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Please Select
+										</button>
+										<div class="dropdown-menu inline" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item heard-about-us" name="iconselect" value="Search Engine" id="12" href="#">Search Engine</a>
+										<a class="dropdown-item heard-about-us" name="iconselect2" value="Socail" id="423" href="">Social</a>
+										<a class="dropdown-item heard-about-us" value="Referrel" href="">Referrel</a>
+										<a class="dropdown-item heard-about-us" value="Other" href="">Other</a>
+	
+									</div>
+									<input id="otherText" name="otherText" type="text" placeholder="Other" class="form-control">							
+								</div>
+
+
+
+										
+								</div>
+							
+							<div class="form-group notes formBoxes col-sm-10">
+								<label>Notes</label>
+								<textarea class="form-control " placeholder="Notes" rows="3" maxlength="200" id="notes"></textarea>
+							</div>
+							
+						
+							
+							
+						</fieldset>
+					</form>
+					<!-- end content -->
+				</div>
+				<div class="modal-footer">
+						<button class="btn btn-primary mb-2 deleteAppointment" id="updateAppointment" data-dismiss="modal">Update</button>
+						<button class="btn btn-primary mb-2 deleteAppointment" id="deleteAppointment" data-dismiss="modal">Delete Appointment</button>
+						<button class="btn btn-primary mb-2 formBoxes" id="addEvent">Add Appointment</button>
+						<button class="btn btn-primary mb-2 cancelButton" id="cancelButton" data-dismiss="modal">Cancel</button>
+
+						</div>
+				</div>
+				</div>
+				</div>
+				
+			<!-- end widget div -->
+		</div>
+		
+		
+		<div id="appointment" class="jarviswidget jarviswidget-color-blueDark " title = "Appointment">
+			
+
+			<!-- widget div-->
+			<!-- end widget div -->
+		</div>
+		
+		<!-- end widget -->
+
+		
+	<div class="col-sm-12">
+
+		<!-- new widget -->
+		<div class="jarviswidget jarviswidget-color-blueDark">
+
+			<!-- widget options:
+			usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+			data-widget-colorbutton="false"
+			data-widget-editbutton="false"
+			data-widget-togglebutton="false"
+			data-widget-deletebutton="false"
+			data-widget-fullscreenbutton="false"
+			data-widget-custombutton="false"
+			data-widget-collapsed="true"
+			data-widget-sortable="false"
+
+			-->
+			<header>
+				<span class="widget-icon"> <i class="fa fa-calendar"></i> </span>
+				<h2> Appointments </h2>
+				<div class="widget-toolbar">
+					<!-- add: non-hidden - to disable auto hide -->
+					<div class="btn-group">
+						<button class="btn dropdown-toggle btn-xs btn-default" data-toggle="dropdown">
+							View 
+							<!-- <i class="fa fa-caret-down"></i> -->
+						</button>
+						<!-- <button id="addEvent" class="btn dropdown-toggle btn-xs btn-default">
+							Add Event <i class="fa fa-caret"></i>
+						</button> -->
+						<button id="hideEvent" onclick="hideEvents(this)" class="btn dropdown-toggle btn-xs btn-default">
+							
+									<span class="glyphicon glyphicon-eye-open">
+								<!-- <i class="fa fa-caret"></i> -->
+						</button>
+						<ul class="dropdown-menu js-status-update pull-right">
+							<li>
+								<a href="javascript:void(0);" id="mt">Month</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);" id="ag">Week</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);" id="td">Today</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</header>
+
+			<!-- widget div-->
+			<div>
+
+				<div class="widget-body no-padding ">
+					<!-- content goes here -->
+					<div class="widget-body-toolbar">
+
+						<div id="calendar-buttons">
+
+							<div class="btn-group">
+								<a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-prev"><i class="fa fa-chevron-left"></i></a>
+								<a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-next"><i class="fa fa-chevron-right"></i></a>
+							</div>
+						</div>
+					</div>
+					<div id="calendar"></div>
+
+					<!-- end content -->
+				</div>
+
+			</div>
+			<!-- end widget div -->
+		</div>
+		<!-- end widget -->
+
+	</div>
+
+</div>
+
+<!-- end row -->
+
+<script type="text/javascript">
+
+$('.input-group').datepicker({
+	format: "dd/mm/yyyy",
+    startView: 2,
+    todayBtn: true,
+    calendarWeeks: true,
+    autoclose: true,
+    todayHighlight: true
+});
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!
+	 *
+	 * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+	 *
+	 * // activate tooltips
+	 * $("[rel=tooltip]").tooltip();
+	 *
+	 * // activate popovers
+	 * $("[rel=popover]").popover();
+	 *
+	 * // activate popovers with hover states
+	 * $("[rel=popover-hover]").popover({ trigger: "hover" });
+	 *
+	 * // activate inline charts
+	 * runAllCharts();
+	 *
+	 * // setup widgets
+	 * setup_widgets_desktop();
+	 *
+	 * // run form elements
+	 * runAllForms();
+	 *
+	 ********************************
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+
+	pageSetUp();
+	
+	/*
+	 * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+	 * eg alert("my home function");
+	 * 
+	 * var pagefunction = function() {
+	 *   ...
+	 * }
+	 * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+	 * 
+	 * TO LOAD A SCRIPT:
+	 * var pagefunction = function (){ 
+	 *  loadScript(".../plugin.js", run_after_loaded);	
+	 * }
+	 * 
+	 * OR
+	 * 
+	 * loadScript(".../plugin.js", run_after_loaded);
+	 */
+	
+	// PAGE RELATED SCRIPTS
+
+	// pagefunction
+
+	var r;
+	var startDatetime;
+	var endDatetime;
+	var showHiddenEventsEye = false;
+	function hideEvents(event)
+    		{
+    		
+    			
+				 $( '.fc-title' ).toggle();
+				 if(showHiddenEventsEye == false)
+				 {
+					$(event).find('span').removeClass('glyphicon glyphicon-eye-open');
+					$(event).find('span').addClass('glyphicon glyphicon-eye-close');
+					 showHiddenEventsEye = true;
+				 }
+				 else
+				 {
+					$(event).find('span').removeClass('glyphicon glyphicon-eye-close');
+					$(event).find('span').addClass('glyphicon glyphicon-eye-open');
+					showHiddenEventsEye = false;
+				 }
+    		}
+    		
+       
+	  
+ 	
+	var fullviewcalendar;
+	$('#newEvent').hide();		
+	$('#dropEvent').hide();
+	var pagefunction = function() {
+		
+		// full calendar
+		
+		var date = new Date();
+	    var d = date.getDate();
+	    var m = date.getMonth();
+	    var y = date.getFullYear();
+	
+	    var hdr = {
+	        left: 'title',
+	        center: 'month,agendaWeek,agendaDay,week',
+	        right: 'prev,today,next'
+	    };
+	
+	 
+	
+	    var addEvent = function (patientName, appointmentColour, appointmentType, appointmentType  , start , end) {
+	        // var html = $('<li><span class="' + priority + '" data-description="' + description + '" data-icon="' + icon + '" data-start="' + start + '" data-end="' + end +'">' + title + '</span></li>').prependTo('ul#external-events').hide().fadeIn();
+			var html = $('<li><span class="bg-color-darken txt-color-white" data-description="app" data-icon="dd" data-start="' + start + '" data-end="' + end +'">hello</span></li>').prependTo('ul#external-events').hide().fadeIn();
+	
+	        $("#event-container").effect("highlight", 800);
+	
+	    };
+	
+	    /* initialize the external events
+		 -----------------------------------------------------------------*/
+	
+	    $('#external-events > li').each(function () {
+	        initDrag($(this));
+	    });
+	    
+	    /* added functions 
+	    ----------------------------------------------------------------*/
+	  
+	    
+	    var aEvent;
+
+		/* ------------------------ Delete Appointment ------------------------ */
+
+
+	     function deleteEvent () {
+	     	$('#calendar').fullCalendar( 'removeEvents' , aEvent._id);
+	     	$.ajax({
+    						type : "POST",
+    						url : "{{ url_for('deleteAppointment') }}",
+    						data: JSON.stringify({"id": aEvent.id}),
+    						contentType: 'application/json;charset=UTF-8',
+    						success: function(result) {
+        					//console.log(result);
+    						}
+						});
+	     
+	     }
+	     
+	     /* ------------------------ Delete Appointment End ------------------------ */
+
+
+
+
+		 /*------------------------ Update Appointment ------------------------ */
+
+	     function updateAppointment ()
+	     {
+			var patientName = $('#patientName label').text(),
+				appointmentType = $("#appointmentMenuButton").text(),
+				startTime = $("#startHoursSelectorButton").text()  + ':' + $("#startMinutesSelectorButton").text() + ':00',
+				endTime = $("#endHoursSelectorButton").text()  + ':' + $("#endMinutesSelectorButton").text() + ':00',
+				start= document.getElementById("startHoursSelectorButton").getAttribute("data-date") + "T" + startTime,
+				end= document.getElementById("endHoursSelectorButton").getAttribute("data-date") + "T" + endTime,
+	            allDay = false,
+				phoneNumber = $("#phoneNumber").val(),
+				dob = $("#dob").val(),
+	            email = $("#email").val(),
+				notes = $("#notes").val();
+				addressLine = $("#addressLine").val();
+				city = $("#city").val();
+				county = $("#county").val();
+				postCode = $("#postCode").val();
+				howDidYouHearAboutUs = $("#howDidYouHearAboutUsButton").text();
+
+				if(appointmentType == "New Patient")
+				{
+					var appointmentColour = "bg-color-darken txt-color-white";
+				}
+				else
+				{
+					var appointmentColour = "bg-color-blue txt-color-white";
+					
+				}
+			var event;
+			if (patientName) {
+			             update_appointment = {
+									"title": patientName,
+			                        "start": start,
+			                        "end": end,
+			                        "allDay": allDay,
+			                        "className": appointmentColour,
+									"appointmentType" : appointmentType ,
+									"canceled" : false ,
+									"phoneNumber": phoneNumber,
+									"dob" : dob,
+									"notes" : notes,
+									"email" : email,
+									"addressLine" : addressLine,
+									"city" : city,
+									"county" : county,
+									"postCode" : postCode,
+									"howDidYouHearAboutUs" : howDidYouHearAboutUs
+			                    };
+			
+				$.ajax({
+    						type : "POST",
+    						url : "{{ url_for('updateAppointment') }}",
+    						data: JSON.stringify({
+									"id" : aEvent.id,
+									"patientName": patientName,
+									"phoneNumber": phoneNumber,
+									"dob" : dob,
+									"notes" : notes,
+									"email" : email,
+			                        "start": start,
+			                        "end": end,
+			                        "allDay": allDay,
+			                        "appointmentColour": appointmentColour,
+									"appointmentType" : aEvent.appointmentType,
+									"canceled" : false,
+									"addressLine" : addressLine,
+									"city" : city,
+									"county" : county,
+									"postCode" : postCode,
+									"howDidYouHearAboutUs" : howDidYouHearAboutUs
+			                    }),
+    						contentType: 'application/json',
+    						success: function(result) {
+								$('#calendar').fullCalendar( 'removeEvents' , aEvent._id);
+								$('#calendar').fullCalendar('renderEvent', update_appointment, true);
+    						}
+						});
+						
+						
+					}
+	     
+	
+	    }
+		/*------------------------ Update Appointment End ------------------------ */
+
+
+	    /*------------------------ Add Appointment ------------------------ */
+
+	    function addAppointment () {
+	        var patientName = $('#title').val(),
+				appointmentType = $("#appointmentMenuButton").text(),
+				startTime = $("#startHoursSelectorButton").text()  + ':' + $("#startMinutesSelectorButton").text() + ':00',
+				endTime = $("#endHoursSelectorButton").text()  + ':' + $("#endMinutesSelectorButton").text() + ':00',
+				start= document.getElementById("startHoursSelectorButton").getAttribute("data-date") + "T" + startTime,
+				end= document.getElementById("endHoursSelectorButton").getAttribute("data-date") + "T" + endTime,
+	            allDay = false,
+				phoneNumber = $("#phoneNumber").val(),
+				dob = $("#dob").val(),
+	            email = $("#email").val(),
+				notes = $("#notes").val();
+				addressLine = $("#addressLine").val();
+				city = $("#city").val();
+				county = $("#county").val();
+				postCode = $("#postCode").val();
+				howDidYouHearAboutUs = $("#howDidYouHearAboutUsButton").text();
+
+
+
+				if(appointmentType == "New Patient")
+				{
+					var appointmentColour = "bg-color-darken txt-color-white";
+				}
+				else
+				{
+					var appointmentColour = "bg-color-blue txt-color-white";
+					
+				}
+			var event;
+	        addEvent(patientName, appointmentColour, appointmentType, appointmentType , start , end);
+	       if (patientName) {
+			   			//Used to render Event on fullcalendar Key Names are important
+			             new_appointement =   {
+									"title": patientName,
+			                        "start": start,
+			                        "end": end,
+			                        "allDay": allDay,
+			                        "className": appointmentColour,
+									"appointmentType" : appointmentType,
+									"phoneNumber": phoneNumber,
+									"dob" : dob,
+									"notes" : notes,
+									"email" : email,
+									"canceled" : false,
+									"addressLine" : addressLine,
+									"city" : city,
+									"county" : county,
+									"postCode" : postCode,
+									"howDidYouHearAboutUs" : howDidYouHearAboutUs
+
+			                    };
+								
+			                    
+			                   
+			                
+			            
+			            //console.log(event);
+			            $.ajax({
+    						type : "POST",
+    						url : "{{ url_for('addAppointment') }}",
+    						data: JSON.stringify({
+									"patientName": patientName,
+									"phoneNumber": phoneNumber,
+									"dob" : dob,
+									"notes" : notes,
+									"email" : email,
+			                        "start": start,
+			                        "end": end,
+			                        "allDay": allDay,
+			                        "appointmentColour": appointmentColour,
+									"appointmentType" : appointmentType,
+									"canceled" : false,
+									"addressLine" : addressLine,
+									"city" : city,
+									"county" : county,
+									"postCode" : postCode,
+									"howDidYouHearAboutUs" : howDidYouHearAboutUs
+			                    }),
+    						contentType: 'application/json',
+    						success: function(result) {
+							new_appointement['id'] = result['id']
+							$('#appointmentModal').modal('hide');
+                			$('.modal-backdrop').hide();
+							$('#calendar').fullCalendar('renderEvent', new_appointement, true);
+    						}
+						});
+		   }
+	        
+	        
+	    };
+	    
+	    
+	    /* ------------------------ Add Appointment End ------------------------ */
+		
+		function clearForm()
+		{
+			$('#title').val("");
+			$("#phoneNumber").val("");
+			$("#dob").val("")
+	        $("#email").val("");
+			$("#notes").val("");
+			$("#addressLine").val("");
+			$("#city").val("");
+			$("#county").val("");
+			$("#postCode").val("");
+		}
+
+
+		function changePatientDetails()
+		{
+			
+		}
+
+		function showAppoinmentBoxes(appointmentType)
+		{
+			if(appointmentType == "Follow Up" || appointmentType == "Review" || appointmentType == "Report Of Findings")
+			{
+				$("#timeHours").html(timeSelector(startDatetime, moment(startDatetime).add(30, 'm').toDate()));
+				$('.title').show();
+				$('#title').show();
+				$('.times').show();
+				$('#addEvent').show();
+				$(".phoneNumber").hide();
+				$(".dob").hide();
+				$(".email").hide();
+				$(".address").hide();
+				$("#howDidYouHearAboutUs").hide()
+				$(".notes").hide();
+				$("#otherText").hide();
+				
+				
+				
+
+
+			}
+			else {
+				$("#timeHours").html(timeSelector(startDatetime, moment(startDatetime).add(60, 'm').toDate()));
+				$('.title').show();
+				$('#title').show();
+				$('.times').show();
+				$(".phoneNumber").show();
+				$(".email").show();
+				$(".dob").show();
+				$(".address").show();
+				$("#howDidYouHearAboutUs").show()
+				$(".notes").show();
+				$('#addEvent').show();
+				$("#otherText").hide();
+				
+
+				
+
+			}
+		}
+			
+	    var addEventButton = document.getElementById("addEvent")
+		addEventButton.addEventListener('click', function() {
+			addAppointment();
+		});
+
+		var addEventButton = document.getElementById("updateAppointment")
+		addEventButton.addEventListener('click', function() {
+			updateAppointment();
+		});
+		
+		var typeOfAppointment = document.getElementsByClassName("appointment-type")
+		$(".appointment-type").on('click', function(event) {
+			event.preventDefault();
+			$("#appointmentMenuButton").text(this.text);
+			var appointmentType = this.text;
+			clearForm();
+			showAppoinmentBoxes(appointmentType);
+		});
+ 	
+ 	$( ".cancelButton" ).button().on( "click", function() {
+		$("#appointmentMenuButton").text("Appointment Type");
+	});
+
+	var howDidYouHearAboutUs  = document.getElementsByClassName("heard-about-us")
+	$(".heard-about-us").on("click" , function(event){
+		event.preventDefault();
+		$("#howDidYouHearAboutUsButton").text(this.text);
+		if(this.text == "Other"){
+			$("#otherText").show();
+		}
+		else{
+			$("#otherText").hide();
+
+		}
+	});
+	
+
+    var DeleteEventButton = document.getElementById("deleteAppointment")
+	DeleteEventButton.addEventListener('click', function() {
+		deleteEvent();
+		});
+
+
+$(document).on('click', ".timeSelector", function() {
+
+	event.preventDefault();
+	buttonId = "#" + $(this).closest("div").find("button").attr("id")
+	$(buttonId).text(this.text);
+});
+			
+
+
+ 	 $(function nameSerach() {
+    $("#title").autocomplete({
+        source:function(request, response) {
+            $.getJSON("{{url_for('autocomplete')}}",{
+                q: request.term, // in flask, "q" will be the argument to look for using request.args
+            }, function(data) {
+				
+                response(data.matching_results);
+               // matching_results from jsonify
+            });
+        },
+        minLength: 2,
+        select: function(event, ui) {
+			
+			if (ui.item.value == "No Results")
+			{
+				ui.item.value = "";
+			}
+			else{
+            $.post("{{url_for('getPatient')}}",{"data" : ui.item.value}, function(results, status){
+        		$('#notes').val(results[0].notes)
+        		$('#email').val(results[0].email)
+				$('#phoneNumber').val(results[0].phoneNumber)
+				$('#dob').val(results[0].dob)
+				$(".input-group").datepicker("update", new Date(results[0].dob));
+				$('#addressLine').val(results[0].addressLine)
+				$('#city').val(results[0].city)
+				$('#county').val(results[0].county)
+				$('#postCode').val(results[0].postCode)
+				$("#howDidYouHearAboutUsButton").text(results[0].howDidYouHearAboutUs)
+				
+				$(".formBoxes").show();
+			});
+		
+			}
+	}
+	});
+	
+})
+	
+
+	    fullviewcalendar = $('#calendar').fullCalendar({
+	
+	        header: hdr,
+			        editable: true,
+			        droppable: true, // this allows things to be dropped onto the calendar !!!
+					eventLimit: true,
+					eventOverlap : false,
+					slotDuration: '00:15:00',
+					selectable:true,
+					defaultView : 'agendaWeek',
+					selectHelper : true,
+					unselectAuto: true,
+					unselectCancel : ".appointmentForm",
+					scrollTime : '08:00:00',
+					businessHours: { start: '08:00', end: '19:00' },
+			        drop: function (date, allDay) { // this function is called when something is dropped
+					
+			            // retrieve the dropped element's stored Event Object
+			            var originalEventObject = $(this).data('eventObject');
+			
+			            // we need to copy it, so that multiple events don't have a reference to the same object
+			            var copiedEventObject = $.extend({}, originalEventObject);
+			
+			            // assign it the date that was reported
+			            copiedEventObject.start = date;
+			            copiedEventObject.allDay = allDay;
+			
+			            // render the event on the calendar
+			            $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+					},
+			
+			        select: function (start, end, allDay) {
+			        
+						//RESET FORM when selected 
+						$(".formBoxes").hide();
+						$(".appointmentType").show();
+						startDatetime  = new Date(start.format());
+						//end is start as 30 or 1 hour added on appointment type
+						endDatetime  = new Date(start.format());
+						// endDatetime  = new Date(end.format());
+						$("#appointmentModal").modal('show')
+						$("#deleteAppointment").hide();
+						$("#updateAppointment").hide();
+			            $('#calendar').fullCalendar('unselect');
+			        	
+			        },
+
+					eventResize : function( event, jsEvent, ui, view ) { 
+					// $("#timeHours").html(timeSelector(new Date(event.start.format()), new Date(event.end.format())));
+					// aEvent = event;
+					// updateAppointment();
+					console.log(event.start.format())
+					$.ajax({
+    						type : "POST",
+    						url : "{{ url_for('updateAppointment') }}",
+    						data: JSON.stringify({
+    												"id": event.id,
+    												"patientName": event.title,
+    												"appointmentType":event.appointmentType,
+    												"start": event.start,
+    												"end": event.end,
+    												"allDay" : event.allDay,
+    												"appointmentColour": event.className.join(" "),
+													"phoneNumber" : event.phoneNumber,
+													"dob" : event.dob,
+    												"email" : event.email,
+													"notes" : event.notes,
+													"canceled" : event.canceled,
+													"addressLine" : event.addressLine,
+													"city" : event.city,
+													"county" : event.county,
+													"postCode" : event.postCode,
+													"howDidYouHearAboutUs" : event.howDidYouHearAboutUs
+    											}),
+    						contentType: 'application/json;charset=UTF-8',
+    						success: function(result) {
+        					//console.log(result);
+    						}
+						});
+					},
+			        
+			    
+			     
+			        
+			        
+			        eventDrop: function(event, delta, revertFunc) {
+						$.ajax({
+    						type : "POST",
+    						url : "{{ url_for('updateAppointment') }}",
+    						data: JSON.stringify({
+    												"id": event.id,
+    												"patientName": event.title,
+    												"appointmentType":event.appointmentType,
+    												"start": event.start,
+    												"end": event.end,
+    												"allDay" : event.allDay,
+    												"appointmentColour": event.className.join(" "),
+													"phoneNumber" : event.phoneNumber,
+													"dob" : event.dob,
+    												"email" : event.email,
+													"notes" : event.notes,
+													"canceled" : event.canceled,
+													"addressLine" : event.addressLine,
+													"city" : event.city,
+													"county" : event.county,
+													"postCode" : event.postCode,
+													"howDidYouHearAboutUs" : event.howDidYouHearAboutUs
+    											}),
+    						contentType: 'application/json;charset=UTF-8',
+    						success: function(result) {
+        					//console.log(result);
+    						}
+						});
+
+   					//console.log(event);
+						$('#calendar').fullCalendar('unselect');
+ 						 },
+ 				
+					
+					//list of event objects stored in the database loaded with page
+			        events: 
+			         {{event|tojson|safe}},
+					
+			        eventRender: function (event, element, icon) {
+			            if (!event.appointmentType == "") {
+							
+			                element.find('.fc-title').append("<br/><span class='ultra-light'>" + event.appointmentType +
+			                    "</span>");
+			            }
+			            if (!event.appointmentType == "") {
+			                element.find('.fc-title').append("<i class='air air-top-right fa " + event.appointmentType +
+			                    " '></i>");
+			            }
+						//Set values on opening appointment dialog box
+			            element.bind('dblclick', function() {
+							r = event;
+							$("#title").hide()
+							$("#patientName").html("<label class='col-sm-10'>"+event.title+"</label>").show();
+							$("#appointmentMenuButton").text(event.appointmentType);
+							var startDatetime = new Date(event.start.format());
+							var endDatetime = new Date(event.end.format());
+							$("#timeHours").html(timeSelector(startDatetime, endDatetime));
+							$("#phoneNumber").val(event.phoneNumber).show();
+							$("#dob").val(event.dob).show();
+							$(".input-group").datepicker("update", new Date(event.dob));
+	           				$("#email").val(event.email).show();
+							$("#notes").val(event.notes).show();
+							$("#addressLine").val(event.addressLine).show();
+							$("#city").val(event.city).show();
+							$("#county").val(event.county).show();
+							$("#postCode").val(event.postCode).show();
+							$("#howDidYouHearAboutUsButton").text(event.howDidYouHearAboutUs).show();
+							
+							if($("#howDidYouHearAboutUsButton").text() == "Other"){
+								$("#otherText").show();
+							}
+							else{
+								$("#otherText").hide();
+
+							}
+							$("#deleteAppointment").show();
+							$("#updateAppointment").show();
+							$(".formBoxes").show();
+							$("#addEvent").hide();
+							aEvent = event;
+							$("#appointmentModal").modal('show');
+
+
+         					$('#calendar').fullCalendar('unselect');
+      					});	
+      		
+      		
+      		
+			        },
+			        
+			        
+			
+			        windowResize: function (event, ui) {
+			            $('#calendar').fullCalendar('render');
+			        }
+			    });
+		
+		    /* hide default buttons */
+		    $('.fc-right, .fc-center').hide();
+
+		
+			$('#calendar-buttons #btn-prev').click(function () {
+			    $('.fc-prev-button').click();
+			    return false;
+			});
+			
+			$('#calendar-buttons #btn-next').click(function () {
+			    $('.fc-next-button').click();
+			    return false;
+			});
+			
+			$('#calendar-buttons #btn-today').click(function () {
+			    $('.fc-today-button').click();
+			    return false;
+			});
+			
+			$('#mt').click(function () {
+			    $('#calendar').fullCalendar('changeView', 'month');
+			});
+			
+			$('#ag').click(function () {
+			    $('#calendar').fullCalendar('changeView', 'agendaWeek');
+			});
+			
+			$('#td').click(function () {
+			    $('#calendar').fullCalendar('changeView', 'agendaDay');
+			});	
+			
+			$('#wk').click(function () {
+			    $('#calendar').fullCalendar('changeView', 'listWeek');
+			});
+					
+		
+	};
+	
+	// end pagefunction
+	
+	// destroy generated instances 
+
+	// destroy generated instances 
+	// pagedestroy is called automatically before loading a new page
+	// only usable in AJAX version!
+
+	var pagedestroy = function(){
+
+		/*
+		Example below:
+
+		$("#calednar").fullCalendar( 'destroy' );
+		if (debugState){
+			root.console.log("✔ Calendar destroyed");
+		} 
+
+		For common instances, such as Jarviswidgets, Google maps, and Datatables, are automatically destroyed through the app.js loadURL mechanic
+
+		*/
+		
+		fullviewcalendar.fullCalendar( 'destroy' );
+		fullviewcalendar = null;
+		$("#add-event").off();
+		$("#add-event").remove();
+
+		$('#external-events > li').off();
+		$('#external-events > li').remove();
+		$('#add-event').off();
+		$('#add-event').remove();
+		$('#calendar-buttons #btn-prev').off();
+		$('#calendar-buttons #btn-prev').remove();
+		$('#calendar-buttons #btn-next').off();
+		$('#calendar-buttons #btn-next').remove();
+		$('#calendar-buttons #btn-today').off();
+		$('#calendar-buttons #btn-today').remove();
+		$('#mt').off();
+		$('#mt').remove();
+		$('#ag').off();
+		$('#ag').remove();
+		$('#td').off();
+		$('#td').remove();
+
+		if (debugState){
+			root.console.log("✔ Calendar destroyed");
+		} 
+	} 
+
+	// end destroy
+
+	// loadscript and run pagefunction
+	loadScript("{{ url_for('static',filename='js/plugin/moment/moment.min.js')}}", function(){
+		loadScript("{{ url_for('static',filename='js/plugin/fullcalendar/jquery.fullcalendar.min.js')}}", pagefunction);
+		
+	});
+
+
+
+</script>

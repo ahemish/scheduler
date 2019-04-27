@@ -1,0 +1,5 @@
+# ignore sqlite db
+/Schedule/sqlite/
+/Schedule/__pycache__
+*.DS_Store
+.vscode
