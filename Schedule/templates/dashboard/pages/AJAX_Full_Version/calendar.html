@@ -241,8 +241,9 @@ margin: 0;
 						<!-- <button id="addEvent" class="btn dropdown-toggle btn-xs btn-default">
 							Add Event <i class="fa fa-caret"></i>
 						</button> -->
-						<button id="hideEvent" onclick="hideEvents()" class="btn dropdown-toggle btn-xs btn-default">
-							<span class="glyphicon glyphicon-eye-open">
+						<button id="hideEvent" onclick="hideEvents(this)" class="btn dropdown-toggle btn-xs btn-default">
+							
+									<span class="glyphicon glyphicon-eye-open">
 								<!-- <i class="fa fa-caret"></i> -->
 						</button>
 						<ul class="dropdown-menu js-status-update pull-right">
@@ -359,11 +360,24 @@ $('.input-group').datepicker({
 	var r;
 	var startDatetime;
 	var endDatetime;
-	function hideEvents()
+	var showHiddenEventsEye = false;
+	function hideEvents(event)
     		{
     		
     			
- 				$( '.fc-title' ).toggle();
+				 $( '.fc-title' ).toggle();
+				 if(showHiddenEventsEye == false)
+				 {
+					$(event).find('span').removeClass('glyphicon glyphicon-eye-open');
+					$(event).find('span').addClass('glyphicon glyphicon-eye-close');
+					 showHiddenEventsEye = true;
+				 }
+				 else
+				 {
+					$(event).find('span').removeClass('glyphicon glyphicon-eye-close');
+					$(event).find('span').addClass('glyphicon glyphicon-eye-open');
+					showHiddenEventsEye = false;
+				 }
     		}
     		
        
