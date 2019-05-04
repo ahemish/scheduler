@@ -7,7 +7,7 @@ import sqlite3
 import flask_login
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from gcal import gcal_events
 
 
 app = Flask(__name__)
@@ -290,7 +290,12 @@ def overview():
 def calendar():
     patients_seen = totalPatientsSeen()
     event= getAppoinments()
-    return render_template('dashboard/pages/AJAX_Full_Version/calendar.html' , event=event, monthPatientsSeen=patients_seen['month'] ,yearPatientsSeen=patients_seen['year'])
+    cred_file_path = '/Volumes/Disk 2/Users/arranhemish/Downloads/credentials.json'
+    gcal = gcal_events(cred_file_path)
+    events =[{'start': i['start']['dateTime'] ,
+    'end' : i['end']['dateTime'] }for i in gcal]
+
+    return render_template('dashboard/pages/AJAX_Full_Version/calendar.html' , event=events, monthPatientsSeen=patients_seen['month'] ,yearPatientsSeen=patients_seen['year'])
 
 
 
