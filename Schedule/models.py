@@ -1,6 +1,5 @@
 from main import db
 from flask_login import UserMixin
-
 class Appointment(db.Model ,UserMixin):
     __tablename__ = 'appointments'
     id = db.Column(db.Integer, primary_key=True)
@@ -11,6 +10,8 @@ class Appointment(db.Model ,UserMixin):
     patient_id = db.Column(db.String(255))
     appointment_type = db.Column(db.String(255))
     canceled = db.Column(db.Boolean(255))
+    gcal_id = db.Column(db.String(255),nullable=True)
+    
 
 class Employee(db.Model ,UserMixin):
     __tablename__ = 'employee'

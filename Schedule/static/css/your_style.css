@@ -72,3 +72,9 @@
   }
   
   
+  .footer {
+    clear: both;
+    position: relative;
+    height: 400px;
+    margin-top: -40px;
+}

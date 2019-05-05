@@ -15,13 +15,17 @@ height: 0;
 width: 0;
 margin: 0;
 }
- 
 
-
+.wrapperScroll{ 
+    overflow-y:scroll; 
+    position:relative;
+    height: 450px;
+}
+   
 </style>
 
 
-<div class="row">
+<!-- <div class="row">
 	<div class="col-xs-4">
 		
 		<h1 class="page-title txt-color-blueDark"><i class="fa fa-calendar fa-fw "></i> 
@@ -45,11 +49,11 @@ margin: 0;
 				</li>
 			  </ul>
 	</div>
-</div>
+</div> -->
 
 <!-- row -->
 
-<div class="row">
+<div class="row" >
 
 
 	<div >
@@ -262,7 +266,7 @@ margin: 0;
 			</header>
 
 			<!-- widget div-->
-			<div>
+			<div > 
 
 				<div class="widget-body no-padding ">
 					<!-- content goes here -->
@@ -432,7 +436,7 @@ $('.input-group').datepicker({
 	     	$.ajax({
     						type : "POST",
     						url : "{{ url_for('deleteAppointment') }}",
-    						data: JSON.stringify({"id": aEvent.id}),
+    						data: JSON.stringify({"id": aEvent.id, "gcalId": aEvent.gcalId}),
     						contentType: 'application/json;charset=UTF-8',
     						success: function(result) {
         					//console.log(result);
@@ -618,6 +622,7 @@ $('.input-group').datepicker({
     						contentType: 'application/json',
     						success: function(result) {
 							new_appointement['id'] = result['id']
+							new_appointement['gcalId'] = result['gcalId']
 							$('#appointmentModal').modal('hide');
                 			$('.modal-backdrop').hide();
 							$('#calendar').fullCalendar('renderEvent', new_appointement, true);
@@ -801,6 +806,8 @@ $(document).on('click', ".timeSelector", function() {
 					unselectCancel : ".appointmentForm",
 					scrollTime : '08:00:00',
 					businessHours: { start: '08:00', end: '19:00' },
+					height: "parent",
+					contentHeight: "parent",
 			        drop: function (date, allDay) { // this function is called when something is dropped
 					
 			            // retrieve the dropped element's stored Event Object

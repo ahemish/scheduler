@@ -7,12 +7,13 @@ import sqlite3
 import flask_login
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from gcal import gcal_events,gcal_delete_event,gcal_add_event
 
 
 app = Flask(__name__)
 app.config.from_pyfile('config.cfg')
 app.secret_key = 'super secret string'  # Change this!
+cred_file_path = '~/credentials.json'
 
 db = SQLAlchemy(app)
 from models import *
@@ -36,31 +37,6 @@ def before_request():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=10)
 
-@app.route('/appoinments', methods=['GET'])
-def appoinments():
-    
-    all_appointments = [{
-        "id" : i[0].id,
-        "start" : i[0].start,
-        "end" : i[0].end,
-        "allDay" : i[0].all_day,
-        "className" : i[0].appointment_colour,
-        "patient_id" : i[0].patient_id,
-        "appointmentType" : i[0].appointment_type,
-        "canceled" : i[0].canceled,
-        "title" : i[1].name,
-        "email" : i[1].email,
-        "phoneNumber" : i[1].phone_number,
-        "dob" : i[1].dob,
-        "notes" : i[1].notes,
-        "addressLine" : i[1].address_line,
-        "city" : i[1].city,
-        "county" : i[1].county,
-        "postCode" : i[1].post_code,
-        "howDidYouHearAboutUs" : i[1].how_did_you_hear_about_us
-    } for i in db.session.query(Appointment,Patient).join(Patient, Appointment.patient_id == Patient.id).all()]
-
-    return jsonify(all_appointments)
 
 def getAppoinments():
     
@@ -73,6 +49,7 @@ def getAppoinments():
         "patient_id" : i[0].patient_id,
         "appointmentType" : i[0].appointment_type,
         "canceled" : i[0].canceled,
+        "gcalId": i[0].gcal_id,
         "title" : i[1].name,
         "email" : i[1].email,
         "phoneNumber" : i[1].phone_number,
@@ -86,6 +63,10 @@ def getAppoinments():
     } for i in db.session.query(Appointment,Patient).join(Patient, Appointment.patient_id == Patient.id).all()]
 
     return all_appointments
+
+def get_evnet_ids():
+    return[i.gcal_id for i in db.session.query(Appointment).all()]
+
 
 def totalPatientsSeen():
     date = datetime.datetime.now()
@@ -167,7 +148,7 @@ def addAppointment():
         db.session.add(new_patient)
         db.session.commit()
         patient_id = new_patient.id
-
+    gcal_event_id = gcal_add_event(patient_name,start,end,cred_file_path)
     new_appointment = Appointment(
         start =start ,
         end =end ,
@@ -175,12 +156,13 @@ def addAppointment():
         appointment_colour =appointment_colour ,
         patient_id =patient_id ,
         appointment_type=appointment_type,
-        canceled =canceled
+        canceled =canceled,
+        gcal_id=gcal_event_id
     )
     db.session.add(new_appointment)
     db.session.commit()
 
-    return jsonify({'id' : new_appointment.id})
+    return jsonify({'id' : new_appointment.id , 'gcalId': gcal_event_id})
     
 
 
@@ -233,9 +215,15 @@ def updateAppointment():
 @app.route('/deleteAppointment', methods=['POST'])
 def deleteAppointment():
     data = json.loads(request.data)
-    id = data["id"] 
-    appointment = Appointment.query.filter_by(id=id).delete()
-    db.session.commit()
+    print(data)
+    if data.get('gcal'):
+        print(gcal_delete_event(data['id'],cred_file_path))
+    else:
+        id = data["id"]
+        if data.get('gcalId'):
+            gcal_delete_event(data['gcalId'],cred_file_path)
+        appointment = Appointment.query.filter_by(id=id).delete()
+        db.session.commit()
 
     return jsonify({'status' : 'Success'})
 
@@ -290,7 +278,17 @@ def overview():
 def calendar():
     patients_seen = totalPatientsSeen()
     event= getAppoinments()
-    return render_template('dashboard/pages/AJAX_Full_Version/calendar.html' , event=event, monthPatientsSeen=patients_seen['month'] ,yearPatientsSeen=patients_seen['year'])
+    event_ids = get_evnet_ids()
+    gcal = [{
+        'id' : i['id'], 
+        'title' : i['summary'] + ' (gcal)' ,
+        'start': i['start']['dateTime'] ,
+        'end' : i['end']['dateTime'],
+        "className" : 'bg-color-blueLight txt-color-white',
+        'gcal' : True}
+        for i in gcal_events(cred_file_path) if i['id'] not in event_ids]
+    events = event + gcal
+    return render_template('dashboard/pages/AJAX_Full_Version/calendar.html' , event=events, monthPatientsSeen=patients_seen['month'] ,yearPatientsSeen=patients_seen['year'])
 
 
 
