@@ -8,12 +8,13 @@ import flask_login
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from gcal import gcal_events,gcal_delete_event,gcal_add_event
+import os
 
 
 app = Flask(__name__)
 app.config.from_pyfile('config.cfg')
 app.secret_key = 'super secret string'  # Change this!
-cred_file_path = '~/credentials.json'
+cred_file_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..','..', 'credentials.json'))
 
 db = SQLAlchemy(app)
 from models import *
