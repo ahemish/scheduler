@@ -13,7 +13,7 @@ from gcal import gcal_events,gcal_delete_event,gcal_add_event
 app = Flask(__name__)
 app.config.from_pyfile('config.cfg')
 app.secret_key = 'super secret string'  # Change this!
-cred_file_path = '/Volumes/Disk 2/Users/arranhemish/Downloads/credentials.json'
+cred_file_path = '~/credentials.json'
 
 db = SQLAlchemy(app)
 from models import *
