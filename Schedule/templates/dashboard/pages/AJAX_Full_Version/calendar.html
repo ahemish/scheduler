@@ -436,7 +436,7 @@ $('.input-group').datepicker({
 	     	$.ajax({
     						type : "POST",
     						url : "{{ url_for('deleteAppointment') }}",
-    						data: JSON.stringify({"id": aEvent.id}),
+    						data: JSON.stringify({"id": aEvent.id, "gcalId": aEvent.gcalId}),
     						contentType: 'application/json;charset=UTF-8',
     						success: function(result) {
         					//console.log(result);
@@ -622,6 +622,7 @@ $('.input-group').datepicker({
     						contentType: 'application/json',
     						success: function(result) {
 							new_appointement['id'] = result['id']
+							new_appointement['gcalId'] = result['gcalId']
 							$('#appointmentModal').modal('hide');
                 			$('.modal-backdrop').hide();
 							$('#calendar').fullCalendar('renderEvent', new_appointement, true);

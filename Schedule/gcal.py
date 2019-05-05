@@ -8,7 +8,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 
-def gcal_auth(credentails_file):
+def gcal_auth(credentials_file):
   SCOPES = ['https://www.googleapis.com/auth/calendar']
   creds = None
   if os.path.exists('token.pickle'):
@@ -20,7 +20,7 @@ def gcal_auth(credentails_file):
           creds.refresh(Request())
       else:
           flow = InstalledAppFlow.from_client_secrets_file(
-              credentails_file, SCOPES)
+              credentials_file, SCOPES)
           creds = flow.run_local_server()
       # Save the credentials for the next run
       with open('token.pickle', 'wb') as token:
@@ -29,15 +29,42 @@ def gcal_auth(credentails_file):
 
 
 
-def gcal_events(credentails_file):
-  gcal_creds = gcal_auth(credentails_file)
+def gcal_events(credentials_file):
+  gcal_creds = gcal_auth(credentials_file)
   service = build('calendar', 'v3', credentials=gcal_creds)
   events_result = service.events().list(calendarId='primary').execute()
   events = events_result.get('items', [])
   return events
 
+def gcal_delete_event(event_id, credentials_file):
+    gcal_creds = gcal_auth(credentials_file)
+    service = build('calendar', 'v3', credentials=gcal_creds)
+    events_result = service.events().delete(calendarId='primary',eventId=event_id).execute()
+    return events_result
+
+def gcal_add_event(title, start , end, credentials_file):
+    gcal_creds = gcal_auth(credentials_file)
+    service = build('calendar', 'v3', credentials=gcal_creds)
+    new_event = {
+    'summary': title,
+    'start': {
+        'dateTime': start,
+        'timeZone' : 'Europe/London'
+    },
+    'end': {
+        'dateTime': end,
+        'timeZone' : 'Europe/London'
+
+    }
+    }
+    events_result = service.events().insert(calendarId='primary',body=new_event).execute()
+    return events_result['id']
+
+    
+
+
 if __name__ == "__main__":
-    print(json.dumps(gcal_events('/Volumes/Disk 2/Users/arranhemish/Downloads/credentials.json'),indent=4))
+    print(json.dumps(gcal_add_event('ython!','2019-05-03T09:00:00','2019-05-03T11:00:00','/Volumes/Disk 2/Users/arranhemish/Downloads/credentials.json'),indent=4))
 
 # now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
 # print('Getting the upcoming 10 events')
@@ -46,18 +73,3 @@ if __name__ == "__main__":
 #     print('No upcoming events found.')
 # print(json.dumps(events,indent=4))
 
-# new_event = {
-#   'summary': 'Python',
-#   'description': 'A chance to hear more about Google\'s developer products.',
-#   'start': {
-#     'dateTime': '2019-05-03T09:00:00',
-#     'timeZone' : 'Europe/London'
-#   },
-#   'end': {
-#     'dateTime': '2019-05-03T17:00:00',
-#     'timeZone' : 'Europe/London'
-
-#   }
-# }
-
-# events_result = service.events().insert(calendarId='primary',body=new_event).execute()
