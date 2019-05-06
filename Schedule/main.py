@@ -285,7 +285,6 @@ def calendar():
     for i in gcal_events(cred_file_path):
         if i['id'] not in event_ids:
             if i.get('recurrence'):
-                print('yeah!')
                 recurrence_days = i['recurrence'][0].split(';')[-1].split('=')[-1].split(',')
                 recurrence_days = [days[i] for i in recurrence_days]
                 gcal.append({
@@ -295,9 +294,6 @@ def calendar():
                 'end' : i['end']['dateTime'].split('T')[-1].split('+')[0],
                 "className" : 'bg-color-blueLight txt-color-white',
                 'gcal' : True,
-                # 'startTime' : i['start']['dateTime'],
-                # 'endTime' : i['end']['dateTime'],
-                # 'startRecur' : i['start']['dateTime'],
                 'dow' : recurrence_days})
             
             else:
@@ -308,8 +304,6 @@ def calendar():
             'end' : i['end']['dateTime'],
             "className" : 'bg-color-blueLight txt-color-white',
             'gcal' : True})
-
-        print(gcal)
 
     # gcal = [{
     #     'id' : i['id'], 
