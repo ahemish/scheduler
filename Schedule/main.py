@@ -297,14 +297,14 @@ def calendar():
             'gcal' : True}
         if i['id'] not in event_ids:
             for name in patients:
-                if name in i['summary']:
+                if name.lower() in i['summary'].lower():
                     appointment.update(patient(name)[0])
-            if i.get('recurrence'):
-                recurrence_days = i['recurrence'][0].split(';')[-1].split('=')[-1].split(',')
-                recurrence_days = [days[i] for i in recurrence_days]
-                appointment['start']=i['start']['dateTime'].split('T')[-1].split('+')[0] ,
-                appointment['end']=i['end']['dateTime'].split('T')[-1].split('+')[0],
-                appointment['dow']=recurrence_days
+                if i.get('recurrence'):
+                    recurrence_days = i['recurrence'][0].split(';')[-1].split('=')[-1].split(',')
+                    recurrence_days = [days[i] for i in recurrence_days]
+                    appointment['start']=i['start']['dateTime'].split('T')[-1].split('+')[0] ,
+                    appointment['end']=i['end']['dateTime'].split('T')[-1].split('+')[0],
+                    appointment['dow']=recurrence_days
         gcal.append(appointment)
 
     # gcal = [{
