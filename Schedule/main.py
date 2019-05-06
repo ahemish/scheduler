@@ -299,6 +299,7 @@ def calendar():
             for name in patients:
                 if name.lower() in i['summary'].lower():
                     appointment.update(patient(name)[0])
+                    appointment['id']=i['id']
                 if i.get('recurrence'):
                     recurrence_days = i['recurrence'][0].split(';')[-1].split('=')[-1].split(',')
                     recurrence_days = [days[i] for i in recurrence_days]
