@@ -280,14 +280,45 @@ def calendar():
     patients_seen = totalPatientsSeen()
     event= getAppoinments()
     event_ids = get_evnet_ids()
-    gcal = [{
-        'id' : i['id'], 
-        'title' : i['summary'] + ' (gcal)' ,
-        'start': i['start']['dateTime'] ,
-        'end' : i['end']['dateTime'],
-        "className" : 'bg-color-blueLight txt-color-white',
-        'gcal' : True}
-        for i in gcal_events(cred_file_path) if i['id'] not in event_ids]
+    days = {'SU' : 0 ,'MO' : 1, 'TU' : 2 , 'WE' : 3, 'TH' : 4 , 'FR' : 5, 'SA' : 6}
+    gcal = []
+    for i in gcal_events(cred_file_path):
+        if i['id'] not in event_ids:
+            if i.get('recurrence'):
+                print('yeah!')
+                recurrence_days = i['recurrence'][0].split(';')[-1].split('=')[-1].split(',')
+                recurrence_days = [days[i] for i in recurrence_days]
+                gcal.append({
+                'id' : i['id'], 
+                'title' : i['summary'] + ' (gcal)' ,
+                'start': i['start']['dateTime'].split('T')[-1].split('+')[0] ,
+                'end' : i['end']['dateTime'].split('T')[-1].split('+')[0],
+                "className" : 'bg-color-blueLight txt-color-white',
+                'gcal' : True,
+                # 'startTime' : i['start']['dateTime'],
+                # 'endTime' : i['end']['dateTime'],
+                # 'startRecur' : i['start']['dateTime'],
+                'dow' : recurrence_days})
+            
+            else:
+                gcal.append({
+            'id' : i['id'], 
+            'title' : i['summary'] + ' (gcal)' ,
+            'start': i['start']['dateTime'] ,
+            'end' : i['end']['dateTime'],
+            "className" : 'bg-color-blueLight txt-color-white',
+            'gcal' : True})
+
+        print(gcal)
+
+    # gcal = [{
+    #     'id' : i['id'], 
+    #     'title' : i['summary'] + ' (gcal)' ,
+    #     'start': i['start']['dateTime'] ,
+    #     'end' : i['end']['dateTime'],
+    #     "className" : 'bg-color-blueLight txt-color-white',
+    #     'gcal' : True}
+    #     for i in gcal_events(cred_file_path) if i['id'] not in event_ids]
     events = event + gcal
     return render_template('dashboard/pages/AJAX_Full_Version/calendar.html' , event=events, monthPatientsSeen=patients_seen['month'] ,yearPatientsSeen=patients_seen['year'])
 
