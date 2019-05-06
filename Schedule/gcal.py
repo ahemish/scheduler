@@ -64,7 +64,7 @@ def gcal_add_event(title, start , end, credentials_file):
 
 
 if __name__ == "__main__":
-    print(json.dumps(gcal_add_event('ython!','2019-05-03T09:00:00','2019-05-03T11:00:00','/Volumes/Disk 2/Users/arranhemish/Downloads/credentials.json'),indent=4))
+    print(json.dumps(gcal_events('/Volumes/Disk 2/Users/arranhemish/Documents/git/credentials.json'),indent=4))
 
 # now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
 # print('Getting the upcoming 10 events')
