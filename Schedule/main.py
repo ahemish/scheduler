@@ -68,6 +68,24 @@ def getAppoinments():
 def get_evnet_ids():
     return[i.gcal_id for i in db.session.query(Appointment).all()]
 
+def get_patients_name():
+    return [i.name for i in db.session.query(Patient).all()]
+
+def patient(patient_name):
+    patient_appointment = [{
+        "id" : i.id,
+        "title" : i.name,
+        "email" : i.email,
+        "phoneNumber" : i.phone_number,
+        "dob" : i.dob,
+        "notes" : i.notes,
+        "addressLine" : i.address_line,
+        "city" : i.city,
+        "county" : i.county,
+        "postCode" : i.post_code,
+        "howDidYouHearAboutUs" : i.how_did_you_hear_about_us
+    } for i in Patient.query.filter_by(name=patient_name).all()]
+    return patient_appointment
 
 def totalPatientsSeen():
     date = datetime.datetime.now()
@@ -94,22 +112,8 @@ def autocomplete():
 
 @app.route('/getPatient', methods=['POST'])
 def getPatient():
-
     patient_name = request.form["data"]
-    patient_appointment = [{
-        "id" : i.id,
-        "title" : i.name,
-        "email" : i.email,
-        "phoneNumber" : i.phone_number,
-        "dob" : i.dob,
-        "notes" : i.notes,
-        "addressLine" : i.address_line,
-        "city" : i.city,
-        "county" : i.county,
-        "postCode" : i.post_code,
-        "howDidYouHearAboutUs" : i.how_did_you_hear_about_us
-    } for i in Patient.query.filter_by(name=patient_name).all()]
-    return jsonify(patient_appointment)
+    return jsonify(patient(name))
 
 
 @app.route('/addAppointment', methods=['POST'])
@@ -279,31 +283,29 @@ def overview():
 def calendar():
     patients_seen = totalPatientsSeen()
     event= getAppoinments()
+    patients = get_patients_name()
     event_ids = get_evnet_ids()
     days = {'SU' : 0 ,'MO' : 1, 'TU' : 2 , 'WE' : 3, 'TH' : 4 , 'FR' : 5, 'SA' : 6}
     gcal = []
     for i in gcal_events(cred_file_path):
-        if i['id'] not in event_ids:
-            if i.get('recurrence'):
-                recurrence_days = i['recurrence'][0].split(';')[-1].split('=')[-1].split(',')
-                recurrence_days = [days[i] for i in recurrence_days]
-                gcal.append({
-                'id' : i['id'], 
-                'title' : i['summary'] + ' (gcal)' ,
-                'start': i['start']['dateTime'].split('T')[-1].split('+')[0] ,
-                'end' : i['end']['dateTime'].split('T')[-1].split('+')[0],
-                "className" : 'bg-color-blueLight txt-color-white',
-                'gcal' : True,
-                'dow' : recurrence_days})
-            
-            else:
-                gcal.append({
+        appointment = {
             'id' : i['id'], 
             'title' : i['summary'] + ' (gcal)' ,
             'start': i['start']['dateTime'] ,
             'end' : i['end']['dateTime'],
             "className" : 'bg-color-blueLight txt-color-white',
-            'gcal' : True})
+            'gcal' : True}
+        if i['id'] not in event_ids:
+            for name in patients:
+                if name in i['summary']:
+                    appointment.update(patient(name)[0])
+            if i.get('recurrence'):
+                recurrence_days = i['recurrence'][0].split(';')[-1].split('=')[-1].split(',')
+                recurrence_days = [days[i] for i in recurrence_days]
+                appointment['start']=i['start']['dateTime'].split('T')[-1].split('+')[0] ,
+                appointment['end']=i['end']['dateTime'].split('T')[-1].split('+')[0],
+                appointment['dow']=recurrence_days
+        gcal.append(appointment)
 
     # gcal = [{
     #     'id' : i['id'], 
